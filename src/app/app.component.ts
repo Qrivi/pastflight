@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FlightComponent } from './modules/flight/flight.component';
+import { FlightService } from './flight.service';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +9,12 @@ import { FlightComponent } from './modules/flight/flight.component';
 
 export class AppComponent {
   private title: string = 'app';
-  private flights: Array<FlightComponent> = [];
+  private flights: Array<string> = [];
 
-  constructor(http: HttpClient) {
+  constructor(private service: FlightService) {
     console.log("Initializing...");
+    this.flights = service.flights;
 
-    this.flights.push(new FlightComponent(http, "LY318", new Date()));
+    service.fetchFlight("LY318", new Date());
   }
 }
