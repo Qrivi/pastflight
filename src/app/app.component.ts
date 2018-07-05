@@ -8,8 +8,8 @@ import { FlightService } from './flight.service';
 })
 
 export class AppComponent {
-  private title: string = 'app';
-  private flights: Array<string> = [];
+  public title: string = 'app';
+  public flights: Array<string> = [];
 
   constructor(private service: FlightService) {
     console.log("Initializing...");
