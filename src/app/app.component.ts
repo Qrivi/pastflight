@@ -8,13 +8,20 @@ import { FlightService } from './flight.service';
 })
 
 export class AppComponent {
-  public title: string = 'app';
   public flights: Array<string> = [];
 
   constructor(private service: FlightService) {
     console.log("Initializing...");
-    this.flights = service.flights;
 
-    service.fetchFlight("LY318", new Date());
+    let date = new Date();
+    date.setDate(date.getDate() - 1);
+
+    // service.fetchFlight("LY318", date)
+    //   .then((flight) => {
+    //     this.flights.push(flight);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   }
 }

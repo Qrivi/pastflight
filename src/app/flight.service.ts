@@ -6,26 +6,38 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FlightService {
 
-  private url: string = 'https://cors-anywhere.herokuapp.com/https://www.flightstats.com/v2/flight-tracker';
-  private fetchedFlights: Array<string> = [];
-
-  get flights() {
-    return this.fetchedFlights;
-  }
+  private api: string = 'https://cors-anywhere.herokuapp.com/https://www.flightstats.com/v2/flight-tracker';
 
   constructor(private http: HttpClient) { }
 
-  fetchFlight(id: string, date: Date) {
+  fetchFlight(id: string, date: Date): Promise<string> {
     let flight = id.match(/([A-Za-z]+)([0-9]+)/);
+    let url = `${this.api}/${flight[1]}/${flight[2]}?year=${date.getFullYear()}&month=${date.getMonth() + 1}&date=${date.getDate()}`;
 
-    this.http.get(`${this.url}/${flight[1]}/${flight[2]}?year=${date.getFullYear()}&month=${date.getMonth() + 1}&date=${date.getDate()}`, { responseType: 'text' })
-      .subscribe(data => {
-        let classNames = data.match(/data-styled-components="(.*?)"/)[1].split(' ');
-        let classBefore = classNames[29];
-        let classAfter = classNames[65];
+    console.log('GET ', url);
 
-        let container = data.match(new RegExp(`${classBefore}"\>(.*?)${classAfter}`))[0];
-        this.fetchedFlights.push(container.substring(container.indexOf('>') + 1, container.lastIndexOf('>') + 1));
-      });
+    return new Promise((resolve, reject) => {
+      this.http.get(url, { responseType: 'text' })
+        .subscribe(data => {
+          let classNames = data.match(/data-styled-components="(.*?)"/)[1].split(' ');
+          let classBefore = classNames[29];
+          let classAfter = classNames[65];
+
+          let container = data.match(new RegExp(`${classBefore}"\>(.*?)${classAfter}`));
+
+          if (typeof container === 'undefined' || !container)
+            reject('No flights that day (or API broken)');
+
+          let output = container[0].substring(container[0].indexOf('>') + 1, container[0].lastIndexOf('>') - 5)
+            .replace(/ class="(.*?)"/gm, '')
+            .replace(/ color="(.*?)"/gm, '')
+            .replace(/\<img (.*?)\>/gm, '')
+            .replace(/\<a (.*?)\>/gm, '')
+            .replace(/\<\/a\>/gm, '');
+
+          console.log(output);
+          resolve(output);
+        });
+    });
   }
 }
