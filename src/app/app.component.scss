@@ -1,3 +1,139 @@
-main{
+main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+
+  section {
+    position: relative;
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+article {
+  margin: 5px;
+  border-radius: 3px;
+  background-color: #444;
+
+  > div:nth-of-type(1) {
     display: flex;
+    background-color: #4d893a;
+
+    > div:nth-of-type(1) {
+      flex: 1 1 auto;
+
+      > div:nth-of-type(1) {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1 1 auto;
+        padding: 15px 2px 10px 15px;
+
+        > div:nth-of-type(1) {
+          flex: 1 1 auto;
+
+          > div:nth-of-type(1) {
+            font-size: 28px;
+            line-height: 28px;
+            font-weight: 600;
+            color: white;
+            margin: 0 0 2px;
+          }
+
+          > div:nth-of-type(2) {
+            font-size: 18px;
+            line-height: 18px;
+            font-weight: 300;
+            color: white;
+            margin: 0;
+          }
+        }
+
+        > div:nth-of-type(2) {
+          flex: 1 1 auto;
+
+          > div:nth-of-type(1) {
+            display: none;
+          }
+        }
+      }
+    }
+
+    > div:nth-of-type(2) {
+      width: 25%;
+      padding: 15px 10px 10px 20px;
+      background-color: #7dd63b;
+      color: #ffffff;
+
+      > div:nth-of-type(1) {
+        font-size: 28px;
+        line-height: 28px;
+        font-weight: 600;
+        color: white;
+        margin: 0 0 2px;
+      }
+
+      > div:nth-of-type(2) {
+        font-size: 18px;
+        line-height: 18px;
+        font-weight: 300;
+        color: white;
+        margin: 0;
+      }
+    }
+  }
+
+  > div:nth-of-type(2) {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px 15px 0 0;
+    background-color: #2d5536;
+
+    > div {
+      text-align: center;
+      flex: 1 1 auto;
+      background-color: rgba(0,0,0,0.1);
+      border-radius: 15px;
+      margin: 0 0 15px 15px;
+      padding: 15px 0 0;
+
+      > div:nth-of-type(1) {
+        margin: 0 0 15px;
+        padding: 0 4px;
+
+        > div:nth-of-type(1) {
+          font-size: 24px;
+          line-height: 24px;
+          font-weight: 600;
+          color: white;
+          margin: 0 0 2px;
+          text-decoration: underline;
+        }
+      }
+
+      > div:nth-of-type(2) {
+        margin: 0 0 15px;
+        padding: 0 4px;
+
+        > div:nth-of-type(1) {
+          display: none;
+        }
+      }
+
+      > div:nth-of-type(3) {
+        margin: 0 0 15px;
+        padding: 0 4px;
+      }
+
+      > div:nth-of-type(4) {
+        margin: 0 0 15px;
+        padding: 0 4px;
+      }
+    }
+  }
 }
