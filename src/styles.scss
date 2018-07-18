@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 a,
 abbr,
@@ -139,9 +140,12 @@ body {
   -webkit-text-size-adjust: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #232323;
+  background: #343434;
   color: #ffffff;
   box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1em;
+  line-height: 1.2em;
 }
 
 *,

@@ -1,9 +1,10 @@
 main {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100vw;
-  height: 100vh;
+  max-width: 1500px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 5px;
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
@@ -11,79 +12,58 @@ main {
   section {
     position: relative;
     flex: 0 0 auto;
-    width: 100%;
-    max-width: 600px;
+    width: calc(1500px / 3);
   }
 }
 
 article {
-  margin: 5px;
-  border-radius: 3px;
-  background-color: #444;
+  margin: 10px 10px 20px;
+  width: calc(100% - 20px);
+  border-radius: 5px;
+  background-color: #1a70f9;
+  overflow: hidden;
 
   > div:nth-of-type(1) {
-    display: flex;
-    background-color: #4d893a;
+    padding: 20px 30px 0;
 
-    > div:nth-of-type(1) {
+    > div:nth-of-type(1) > div:nth-of-type(1) {
+      display: flex;
+      flex-wrap: wrap;
       flex: 1 1 auto;
 
       > div:nth-of-type(1) {
-        display: flex;
-        flex-wrap: wrap;
         flex: 1 1 auto;
-        padding: 15px 2px 10px 15px;
+        font-size: 1.4em;
+        line-height: 1em;
 
         > div:nth-of-type(1) {
-          flex: 1 1 auto;
-
-          > div:nth-of-type(1) {
-            font-size: 28px;
-            line-height: 28px;
-            font-weight: 600;
-            color: white;
-            margin: 0 0 2px;
-          }
-
-          > div:nth-of-type(2) {
-            font-size: 18px;
-            line-height: 18px;
-            font-weight: 300;
-            color: white;
-            margin: 0;
-          }
+          font-weight: 600;
         }
 
         > div:nth-of-type(2) {
-          flex: 1 1 auto;
-
-          > div:nth-of-type(1) {
-            display: none;
-          }
+          font-weight: 200;
         }
+      }
+
+      > div:nth-of-type(2) {
+        display: none;
       }
     }
 
     > div:nth-of-type(2) {
-      width: 25%;
-      padding: 15px 10px 10px 20px;
-      background-color: #7dd63b;
-      color: #ffffff;
+      font-size: 0.8em;
+      font-weight: 600;
+      padding: 10px 0;
+      border-bottom: solid 1px #fff;
 
-      > div:nth-of-type(1) {
-        font-size: 28px;
-        line-height: 28px;
-        font-weight: 600;
-        color: white;
-        margin: 0 0 2px;
-      }
+      > div {
+        display: inline-block;
+        padding-right: 5px;
 
-      > div:nth-of-type(2) {
-        font-size: 18px;
-        line-height: 18px;
-        font-weight: 300;
-        color: white;
-        margin: 0;
+        &:nth-of-type(2) {
+          text-transform: lowercase;
+          font-weight: 200;
+        }
       }
     }
   }
@@ -91,34 +71,25 @@ article {
   > div:nth-of-type(2) {
     display: flex;
     flex-wrap: wrap;
-    padding: 15px 15px 0 0;
-    background-color: #2d5536;
+    padding: 10px 20px 25px;
 
     > div {
       text-align: center;
       flex: 1 1 auto;
-      background-color: rgba(0,0,0,0.1);
-      border-radius: 15px;
-      margin: 0 0 15px 15px;
-      padding: 15px 0 0;
+      margin: 10px;
 
-      > div:nth-of-type(1) {
-        margin: 0 0 15px;
-        padding: 0 4px;
+      > div:nth-of-type(1) > div:nth-of-type(1) {
+        font-size: 1.5em;
+        padding: 10px 0;
+      }
 
-        > div:nth-of-type(1) {
-          font-size: 24px;
-          line-height: 24px;
-          font-weight: 600;
-          color: white;
-          margin: 0 0 2px;
-          text-decoration: underline;
-        }
+      > div:nth-of-type(1) > div:nth-of-type(3) {
+        font-size: 0.7em;
       }
 
       > div:nth-of-type(2) {
-        margin: 0 0 15px;
-        padding: 0 4px;
+        padding-top: 20px;
+        font-size: 0.6em;
 
         > div:nth-of-type(1) {
           display: none;
@@ -126,13 +97,27 @@ article {
       }
 
       > div:nth-of-type(3) {
-        margin: 0 0 15px;
-        padding: 0 4px;
+        display: flex;
+
+        > div {
+          flex: 1 0 50%;
+
+          > div:nth-of-type(1) {
+            font-size: 0.6em;
+          }
+
+          > div:nth-of-type(2) {
+            font-weight: 600;
+
+            span {
+              font-weight: 200;
+            }
+          }
+        }
       }
 
       > div:nth-of-type(4) {
-        margin: 0 0 15px;
-        padding: 0 4px;
+        display: none;
       }
     }
   }
