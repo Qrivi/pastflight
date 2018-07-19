@@ -2,17 +2,47 @@ main {
   position: relative;
   width: 100vw;
   max-width: 1500px;
-  min-height: 100vh;
+  height: 100vh;
   margin: 0 auto;
   padding: 5px;
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
+  overflow-y: hidden;
 
   section {
-    position: relative;
     flex: 0 0 auto;
     width: calc(1500px / 3);
+    max-width: 100%;
+    max-height: 100vh;
+    -ms-overflow-style: none;
+    overflow-y:: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    > h1 {
+      background: #343434;
+      color: #FAFAFA;
+      box-shadow: 0 0 15px 5px #343434;
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 1.4em;
+
+      span {
+        display: block;
+        font-weight: 200;
+        font-size: 0.5em;
+      }
+    }
   }
 }
 
@@ -20,23 +50,26 @@ article {
   margin: 10px 10px 20px;
   width: calc(100% - 20px);
   border-radius: 5px;
-  background-color: #1a70f9;
+  background-color: #019587;
   overflow: hidden;
 
-  > div:nth-of-type(1) {
+  > div > div:nth-of-type(1) {
     padding: 20px 30px 0;
 
     > div:nth-of-type(1) > div:nth-of-type(1) {
+      //hele blok me arrived en dealy
       display: flex;
       flex-wrap: wrap;
       flex: 1 1 auto;
 
       > div:nth-of-type(1) {
+        //header met air company
         flex: 1 1 auto;
         font-size: 1.4em;
         line-height: 1em;
 
         > div:nth-of-type(1) {
+          //fliight id
           font-weight: 600;
         }
 
@@ -68,7 +101,7 @@ article {
     }
   }
 
-  > div:nth-of-type(2) {
+  > div > div:nth-of-type(2) {
     display: flex;
     flex-wrap: wrap;
     padding: 10px 20px 25px;

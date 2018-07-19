@@ -14,7 +14,7 @@ export class FlightService {
     let flight = id.match(/([A-Za-z]+)([0-9]+)/);
     let url = `${this.api}/${flight[1]}/${flight[2]}?year=${date.getFullYear()}&month=${date.getMonth() + 1}&date=${date.getDate()}`;
 
-    console.log('GET ', url);
+    // console.log('GET ', url);
 
     return new Promise((resolve, reject) => {
       this.http.get(url, { responseType: 'text' })
@@ -26,7 +26,7 @@ export class FlightService {
           let container = data.match(new RegExp(`${classBefore}"\>(.*?)${classAfter}`));
 
           if (typeof container === 'undefined' || !container)
-            reject('No flights that day (or API broken)');
+            reject(`It appears there's no data for ${id} on this day.`);
 
           let output = container[0].substring(container[0].indexOf('>') + 1, container[0].lastIndexOf('>') - 5)
             .replace(/ class="(.*?)"/gm, '')
