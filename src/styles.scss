@@ -146,10 +146,21 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 1em;
   line-height: 1.2em;
+  user-select: none;
 }
 
 *,
 *:after,
 *:before {
   box-sizing: inherit;
+}
+
+*::selection {
+  background: #FFFFFF;
+  color: #019587;
+}
+
+*::-moz-selection {
+  background: #FFFFFF;
+  color: #019587;
 }

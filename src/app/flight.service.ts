@@ -35,7 +35,7 @@ export class FlightService {
             .replace(/\<a (.*?)\>/gm, '')
             .replace(/\<\/a\>/gm, '');
 
-          console.log(output);
+          // console.log(output);
           resolve(output);
         });
     });
