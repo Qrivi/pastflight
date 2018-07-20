@@ -1,11 +1,14 @@
+<div class="loading" [hidden]="!cardsLoading">&nbsp;</div>
+
 <main>
   <section>
     <h1>
         {{ d0 | date :  "MMMM d" }}
         <span>Today</span>
     </h1>
-    <article *ngFor="let flight of flightsD0">
-      <div [innerHTML]="flight"></div>
+    <article *ngFor="let flight of flightsD0" [ngClass]="{'disabled': flight.disabled}">
+        <button [disabled]="flight.disabled" (click)="removeFlight( 0, flight )">&#x2716;</button>
+      <div [innerHTML]="flight.html"></div>
     </article>
   </section>
 
@@ -14,8 +17,9 @@
         {{ d1 | date :  "MMMM d" }}
         <span>Yesterday</span>
     </h1>
-    <article *ngFor="let flight of flightsD1">
-      <div [innerHTML]="flight"></div>
+    <article *ngFor="let flight of flightsD1" [ngClass]="{'disabled': flight.disabled}">
+        <button [disabled]="flight.disabled" (click)="removeFlight( 1, flight )">&#x2716;</button>
+      <div [innerHTML]="flight.html"></div>
     </article>
   </section>
 
@@ -24,9 +28,9 @@
         {{ d2 | date :  "MMMM d" }}
         <span>The day before</span>
     </h1>
-    <article *ngFor="let flight of flightsD2">
-      <div [innerHTML]="flight"></div>
+    <article *ngFor="let flight of flightsD2" [ngClass]="{'disabled': flight.disabled}">
+        <button [disabled]="flight.disabled" (click)="removeFlight( 2, flight )">&#x2716;</button>
+      <div [innerHTML]="flight.html"></div>
     </article>
   </section>
-
 </main>

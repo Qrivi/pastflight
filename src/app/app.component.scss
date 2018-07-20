@@ -1,13 +1,37 @@
+$accent: #019587;
+//
+@keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes loading {
+  from { left: -10vw; }
+  to { left: 90vw; }
+}
+
+.loading {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 20vw;
+  height: 5px;
+  background: $accent;
+  animation: loading 1s infinite alternate ease-in-out;
+}
+
 main {
   position: relative;
+  z-index: 1;
   width: 100vw;
-  max-width: 2500px; // TODO instellen op basis van 4K thuis
+  max-width: 2200px;
   height: 100vh;
   margin: 0 auto;
   display: flex;
   flex-flow: row nowrap;
   overflow-x: auto;
-  // overflow-y: hidden; // not on mobile
+  overflow-y: hidden; // not on mobile
+
   section {
     flex: 0 0 auto;
     width: 100vw;
@@ -47,30 +71,65 @@ main {
 }
 
 article {
-  margin: 10px 10px 5vw; // not on mobile (last value)
+  position: relative;
+  margin: 1vw 10px 4vw; // not on mobile (last value)
   width: calc(100% - 20px);
+  max-height: 350px;
   border-radius: 5px;
-  background-color: #019587;
+  background-color: $accent;
   overflow: hidden;
   user-select: text;
+  transition: opacity 300ms ease-out, max-height 200ms 300ms ease-out, margin 200ms 300ms ease-out;
+  animation: fadein 500ms;
+
+  &.disabled{
+      margin: 0 10px;
+      max-height: 0;
+      opacity: 0;
+  }
+
+  &:hover button{
+      opacity: 1;
+  }
+
+  button{
+      color: #FFFFFF;
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-size: 1.6em;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      opacity: 0;
+      transition: opacity 500ms;
+  }
+
+  > div > .error {
+    margin-bottom: 25px;
+
+    div {
+      margin-bottom: 10px;
+      font-size: 1.4em;
+      font-weight: 600;
+    }
+  }
 
   > div > div:nth-of-type(1) {
     padding: 20px 30px 0;
 
     > div:nth-of-type(1) > div:nth-of-type(1) {
-      //hele blok me arrived en dealy
       display: flex;
       flex-wrap: wrap;
       flex: 1 1 auto;
 
       > div:nth-of-type(1) {
-        //header met air company
         flex: 1 1 auto;
         font-size: 1.4em;
         line-height: 1em;
 
         > div:nth-of-type(1) {
-          //fliight id
           font-weight: 600;
         }
 

@@ -25,8 +25,8 @@ export class FlightService {
 
           let container = data.match(new RegExp(`${classBefore}"\>(.*?)${classAfter}`));
 
-          if (typeof container === 'undefined' || !container)
-            reject(`It appears there's no data for ${id} on this day.`);
+          if (container == null)
+            return reject(`It appears there's no data for ${id} on this day.`);
 
           let output = container[0].substring(container[0].indexOf('>') + 1, container[0].lastIndexOf('>') - 5)
             .replace(/ class="(.*?)"/gm, '')
@@ -36,7 +36,7 @@ export class FlightService {
             .replace(/\<\/a\>/gm, '');
 
           // console.log(output);
-          resolve(output);
+          return resolve(output);
         });
     });
   }
