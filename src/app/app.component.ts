@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { ViewEncapsulation } from '@angular/core';
 import { UUID } from 'angular2-uuid';
-import { FlightService } from './flight.service';
+import { FlightComponent } from './components/flight/flight.component';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +13,13 @@ export class AppComponent {
   public d1: Date = new Date();
   public d2: Date = new Date();
 
-  public flightsD0: Array<Flight> = [];
-  public flightsD1: Array<Flight> = [];
-  public flightsD2: Array<Flight> = [];
+  public flightsD0: Array<string> = [];
+  public flightsD1: Array<string> = [];
+  public flightsD2: Array<string> = [];
 
   public cardsLoading: number = 0;
 
-  constructor(private service: FlightService) {
+  constructor() {
     console.log("Initializing...");
     this.d1.setDate(this.d1.getDate() - 1);
     this.d2.setDate(this.d2.getDate() - 2);
@@ -45,12 +44,12 @@ export class AppComponent {
     promise
       .then((flight) => {
         this[`flightsD${queue}`].push(
-          new Flight(UUID.UUID(), flight)
+          new FlightData(UUID.UUID(), flight)
         );
       })
       .catch((error) => {
         this[`flightsD${queue}`].push(
-          new Flight(UUID.UUID(), `<div class='error'><div>Whoops...</div>${error}</div>`)
+          new FlightData(UUID.UUID(), `<div class='error'><div>Whoops...</div>${error}</div>`)
         );
       })
       .finally(() => {
@@ -69,6 +68,6 @@ export class AppComponent {
   };
 }
 
-class Flight {
+class FlightData {
   constructor(public id: string, public html: string, public disabled?: boolean) { }
 }
