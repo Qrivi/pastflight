@@ -7,8 +7,157 @@
         <span>Today</span>
     </h1>
     <article *ngFor="let flight of flightsD0" [ngClass]="{'disabled': flight.disabled}">
-        <button [disabled]="flight.disabled" (click)="removeFlight( 0, flight )">&#x2716;</button>
+      <button [disabled]="flight.disabled" (click)="removeFlight( 0, flight )">&#x2716;</button>
       <div [innerHTML]="flight.html"></div>
+    </article>
+
+    <article>
+      <header>
+        <h2>
+                BA 167
+                <span>British Airways</span>
+            </h2>
+        <em>Arrived</em> delayed by 10 min
+        <button [disabled]="flight.disabled" (click)="removeFlight( 0, flight )">&#x2716;</button>
+      </header>
+      <div>
+        <div>
+          <div>
+            <div>LHR</div>
+            <div>London, EN, GB</div>
+            <div>London Heathrow Airport</div>
+          </div>
+          <time>19-Jul-2018</time>
+          <div>
+            <div>
+              <h3>Scheduled</h3>
+              <div>16:45<span> BST</span></div>
+            </div>
+            <div>
+              <h3>Actual</h3>
+              <div>18:08<span> BST</span></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div>TLV</div>
+            <div>Tel Aviv-Yafo, IL</div>
+            <div>Ben Gurion International Airport</div>
+          </div>
+          <time>19-Jul-2018</time>
+          <div>
+            <div>
+              <h3>Scheduled</h3>
+              <div>23:35<span> IDT</span></div>
+            </div>
+            <div>
+              <h3>Actual</h3>
+              <div>00:55<span> IDT</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article>
+      <div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <div>BA 167</div>
+                <div>British Airways</div>
+              </div>
+              <div>
+                <div>
+                  <div>
+                    <div>
+                      <div>LHR</div>
+                      <div>London</div>
+                    </div>
+                  </div>
+                  <div></div>
+                  <div>
+                    <div>
+                      <div>TLV</div>
+                      <div>Tel Aviv-Yafo</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div>Arrived</div>
+            <div>Delayed by 1h 20m</div>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div>
+              <div>LHR</div>
+              <div>London, EN, GB</div>
+              <div>London Heathrow Airport</div>
+            </div>
+            <div>
+              <div>Flight Departure Times</div>
+              <div>19-Jul-2018</div>
+            </div>
+            <div>
+              <div>
+                <div>Scheduled</div>
+                <div>16:45<span> BST</span></div>
+              </div>
+              <div>
+                <div>Actual</div>
+                <div>18:08<span> BST</span></div>
+              </div>
+            </div>
+            <div>
+              <div>
+                <div>Terminal</div>
+                <div>5</div>
+              </div>
+              <div>
+                <div>Gate</div>
+                <div>A10</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div>
+              <div>TLV</div>
+              <div>Tel Aviv-Yafo, IL</div>
+              <div>Ben Gurion International Airport</div>
+            </div>
+            <div>
+              <div>Flight Arrival Times</div>
+              <div>19-Jul-2018</div>
+            </div>
+            <div>
+              <div>
+                <div>Scheduled</div>
+                <div>23:35<span> IDT</span></div>
+              </div>
+              <div>
+                <div>Actual</div>
+                <div>00:55<span> IDT</span></div>
+              </div>
+            </div>
+            <div>
+              <div>
+                <div>Terminal</div>
+                <div>3</div>
+              </div>
+              <div>
+                <div>Gate</div>
+                <div>N/A</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </article>
   </section>
 
@@ -18,7 +167,7 @@
         <span>Yesterday</span>
     </h1>
     <article *ngFor="let flight of flightsD1" [ngClass]="{'disabled': flight.disabled}">
-        <button [disabled]="flight.disabled" (click)="removeFlight( 1, flight )">&#x2716;</button>
+      <button [disabled]="flight.disabled" (click)="removeFlight( 1, flight )">&#x2716;</button>
       <div [innerHTML]="flight.html"></div>
     </article>
   </section>
@@ -29,7 +178,7 @@
         <span>The day before</span>
     </h1>
     <article *ngFor="let flight of flightsD2" [ngClass]="{'disabled': flight.disabled}">
-        <button [disabled]="flight.disabled" (click)="removeFlight( 2, flight )">&#x2716;</button>
+      <button [disabled]="flight.disabled" (click)="removeFlight( 2, flight )">&#x2716;</button>
       <div [innerHTML]="flight.html"></div>
     </article>
   </section>

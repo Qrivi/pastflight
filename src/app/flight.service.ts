@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { isDevMode } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class FlightService {
     let flight = id.match(/([A-Za-z]+)([0-9]+)/);
     let url = `${this.api}/${flight[1]}/${flight[2]}?year=${date.getFullYear()}&month=${date.getMonth() + 1}&date=${date.getDate()}`;
 
-    // console.log('GET ', url);
+    if (isDevMode())
+      console.log('GET ', url);
 
     return new Promise((resolve, reject) => {
       this.http.get(url, { responseType: 'text' })
@@ -35,7 +37,9 @@ export class FlightService {
             .replace(/\<a (.*?)\>/gm, '')
             .replace(/\<\/a\>/gm, '');
 
-          // console.log(output);
+          if (isDevMode())
+            console.log(output);
+
           return resolve(output);
         });
     });

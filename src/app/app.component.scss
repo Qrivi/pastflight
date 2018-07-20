@@ -1,12 +1,22 @@
 $accent: #019587;
-//
+$treshold: 1000px;
 @keyframes fadein {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 @keyframes loading {
-  from { left: -10vw; }
-  to { left: 90vw; }
+  from {
+    left: -10vw;
+  }
+
+  to {
+    left: 90vw;
+  }
 }
 
 .loading {
@@ -30,17 +40,26 @@ main {
   display: flex;
   flex-flow: row nowrap;
   overflow-x: auto;
-  overflow-y: hidden; // not on mobile
+  overflow-y: hidden;
+  @media screen and (max-width: $treshold) {
+    height: auto;
+    flex-flow: column wrap;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 
   section {
     flex: 0 0 auto;
     width: 100vw;
     max-width: 500px;
-    max-height: 100vh; //not on mobile
+    height: 100%;
     margin: 0 auto;
     padding: 0 0 25px;
     -ms-overflow-style: none;
-    overflow-y: auto; // not on mobile
+    overflow-y: auto;
+    @media screen and (max-width: $treshold) {
+      height: auto;
+    }
 
     &::-webkit-scrollbar {
       display: none;
@@ -51,6 +70,7 @@ main {
       color: #FAFAFA;
       box-shadow: 0 0 15px 5px #343434;
       position: sticky;
+      z-index: 2;
       top: 0;
       left: 0;
       width: 100%;
@@ -72,145 +92,151 @@ main {
 
 article {
   position: relative;
-  margin: 1vw 10px 4vw; // not on mobile (last value)
+  z-index: 1;
+  margin: 1vw 10px 4vw;
   width: calc(100% - 20px);
-  max-height: 350px;
+  max-height: 550px;
   border-radius: 5px;
   background-color: $accent;
   overflow: hidden;
   user-select: text;
   transition: opacity 300ms ease-out, max-height 200ms 300ms ease-out, margin 200ms 300ms ease-out;
   animation: fadein 500ms;
-
-  &.disabled{
-      margin: 0 10px;
-      max-height: 0;
-      opacity: 0;
+  @media screen and (max-width: $treshold) {
+    margin: 10px;
   }
 
-  &:hover button{
-      opacity: 1;
+  &.disabled {
+    margin: 0 10px;
+    max-height: 0;
+    opacity: 0;
   }
 
-  button{
-      color: #FFFFFF;
-      background: transparent;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      font-size: 1.6em;
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      opacity: 0;
-      transition: opacity 500ms;
+  &:hover button {
+    opacity: 1;
   }
 
-  > div > .error {
-    margin-bottom: 25px;
-
-    div {
-      margin-bottom: 10px;
-      font-size: 1.4em;
-      font-weight: 600;
-    }
+  button {
+    color: #FFFFFF;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1.4em;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    opacity: 0;
+    transition: opacity 500ms;
   }
 
-  > div > div:nth-of-type(1) {
-    padding: 20px 30px 0;
+  ::ng-deep {
+    > div > .error {
+      margin-bottom: 25px;
 
-    > div:nth-of-type(1) > div:nth-of-type(1) {
-      display: flex;
-      flex-wrap: wrap;
-      flex: 1 1 auto;
-
-      > div:nth-of-type(1) {
-        flex: 1 1 auto;
+      div {
+        margin-bottom: 10px;
         font-size: 1.4em;
-        line-height: 1em;
+        font-weight: 600;
+      }
+    }
+
+    > div > div:nth-of-type(1) {
+      padding: 20px 30px 0;
+
+      > div:nth-of-type(1) > div:nth-of-type(1) {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1 1 auto;
 
         > div:nth-of-type(1) {
-          font-weight: 600;
+          flex: 1 1 auto;
+          font-size: 1.4em;
+          line-height: 1em;
+
+          > div:nth-of-type(1) {
+            font-weight: 600;
+          }
+
+          > div:nth-of-type(2) {
+            font-weight: 200;
+          }
         }
 
         > div:nth-of-type(2) {
-          font-weight: 200;
-        }
-      }
-
-      > div:nth-of-type(2) {
-        display: none;
-      }
-    }
-
-    > div:nth-of-type(2) {
-      font-size: 0.8em;
-      font-weight: 600;
-      padding: 10px 0;
-      border-bottom: solid 1px #fff;
-
-      > div {
-        display: inline-block;
-        padding-right: 5px;
-
-        &:nth-of-type(2) {
-          text-transform: lowercase;
-          font-weight: 200;
-        }
-      }
-    }
-  }
-
-  > div > div:nth-of-type(2) {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 10px 20px 25px;
-
-    > div {
-      text-align: center;
-      flex: 1 1 auto;
-      margin: 10px;
-
-      > div:nth-of-type(1) > div:nth-of-type(1) {
-        font-size: 1.5em;
-        padding: 10px 0;
-      }
-
-      > div:nth-of-type(1) > div:nth-of-type(3) {
-        font-size: 0.7em;
-      }
-
-      > div:nth-of-type(2) {
-        padding-top: 20px;
-        font-size: 0.6em;
-
-        > div:nth-of-type(1) {
           display: none;
         }
       }
 
-      > div:nth-of-type(3) {
-        display: flex;
+      > div:nth-of-type(2) {
+        font-size: 0.8em;
+        font-weight: 600;
+        padding: 10px 0;
+        border-bottom: solid 1px #fff;
 
         > div {
-          flex: 1 0 50%;
+          display: inline-block;
+          padding-right: 5px;
 
-          > div:nth-of-type(1) {
-            font-size: 0.6em;
-          }
-
-          > div:nth-of-type(2) {
-            font-weight: 600;
-
-            span {
-              font-weight: 200;
-            }
+          &:nth-of-type(2) {
+            text-transform: lowercase;
+            font-weight: 200;
           }
         }
       }
+    }
 
-      > div:nth-of-type(4) {
-        display: none;
+    > div > div:nth-of-type(2) {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 10px 20px 25px;
+
+      > div {
+        text-align: center;
+        flex: 1 1 auto;
+        margin: 10px;
+
+        > div:nth-of-type(1) > div:nth-of-type(1) {
+          font-size: 1.5em;
+          padding: 10px 0;
+        }
+
+        > div:nth-of-type(1) > div:nth-of-type(3) {
+          font-size: 0.7em;
+        }
+
+        > div:nth-of-type(2) {
+          padding-top: 20px;
+          font-size: 0.6em;
+
+          > div:nth-of-type(1) {
+            display: none;
+          }
+        }
+
+        > div:nth-of-type(3) {
+          display: flex;
+
+          > div {
+            flex: 1 0 50%;
+
+            > div:nth-of-type(1) {
+              font-size: 0.6em;
+            }
+
+            > div:nth-of-type(2) {
+              font-weight: 600;
+
+              span {
+                font-weight: 200;
+              }
+            }
+          }
+        }
+
+        > div:nth-of-type(4) {
+          display: none;
+        }
       }
     }
   }
