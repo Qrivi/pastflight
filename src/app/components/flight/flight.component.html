@@ -7,10 +7,10 @@
     <em>{{data.status}}</em> {{data.statusDetail}}
     <button>&#x2716;</button>
   </header>
-  <div class="wrapper-details error" [hidden]="!data.error">
+  <div *ngIf="data.error" class="error">
     {{data.error}}
   </div>
-  <div class="wrapper-details" [hidden]="data.error">
+  <div *ngIf="!data.error" class="wrapper-details">
     <div>
       <div class="abbrev">{{data.fromAirport}}</div>
       <div class="address">{{data.fromAddress}}</div>

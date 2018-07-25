@@ -2,7 +2,7 @@
 <div class="overlay" [ngClass]="{'hidden': activeQueue === -1}">
   <div>
     Enter flight number to fetch its details.
-    <input #flightInput maxlength="7">
+    <input (keyup.enter)="addFlight()" maxlength="7" #flightInput>
     <button (click)="activeQueue = -1">Cancel</button>
     <button (click)="addFlight()">Submit</button>
   </div>
@@ -26,7 +26,7 @@
         <span>Yesterday</span>
     </h1>
     <ng-container *ngFor="let flight of flightsD1">
-      <app-flight [id]="flight" [date]="d0"></app-flight>
+      <app-flight [id]="flight" [date]="d1"></app-flight>
     </ng-container>
     <button (click)="activeQueue = 1">+</button>
   </section>
@@ -37,7 +37,7 @@
         <span>The day before</span>
     </h1>
     <ng-container *ngFor="let flight of flightsD2">
-      <app-flight [id]="flight" [date]="d0"></app-flight>
+      <app-flight [id]="flight" [date]="d2"></app-flight>
     </ng-container>
     <button (click)="activeQueue = 2">+</button>
   </section>

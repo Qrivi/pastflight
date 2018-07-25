@@ -105,12 +105,12 @@ main {
   overflow-y: hidden;
   @media screen and (max-width: $treshold) {
     height: auto;
-    flex-flow: column wrap;
-    overflow-x: hidden;
+    display: block;
     overflow-y: auto;
   }
 
   section {
+    display: block;
     flex: 0 0 auto;
     width: 100vw;
     max-width: 500px;

@@ -41,34 +41,34 @@ export class FlightService {
             if (isDevMode())
               console.log(html);
 
-            flightData.flightNumber = this.getInnerValue(html, classNames[34], 1);
-            flightData.company = this.getInnerValue(html, classNames[35], 1);
-            flightData.status = this.getInnerValue(html, classNames[37], 1);
-            flightData.statusDetail = this.getInnerValue(html, classNames[38], 1);
+            flightData.flightNumber = this.getInnerValue(html, classNames[34], 0);
+            flightData.company = this.getInnerValue(html, classNames[35], 0);
+            flightData.status = this.getInnerValue(html, classNames[37], 0);
+            flightData.statusDetail = this.getInnerValue(html, classNames[38], 0);
 
-            flightData.fromAirport = this.getInnerValue(html, classNames[57], 1);
-            flightData.fromAddress = this.getInnerValue(html, classNames[39], 1);
-            flightData.fromName = this.getInnerValue(html, classNames[40], 1);
+            flightData.fromAirport = this.getInnerValue(html, classNames[57], 0);
+            flightData.fromAddress = this.getInnerValue(html, classNames[39], 0);
+            flightData.fromName = this.getInnerValue(html, classNames[40], 0);
 
-            flightData.fromDate = this.getInnerValue(html, classNames[42], 1);
-            flightData.fromScheduleTitleA = this.getInnerValue(html, classNames[43], 1);
-            flightData.fromScheduleTitleB = this.getInnerValue(html, classNames[43], 2);
-            flightData.fromScheduleTimeA = this.getInnerValue(html, classNames[44], 1);
-            flightData.fromScheduleZoneA = this.getInnerValue(html, classNames[59], 1);
-            flightData.fromScheduleTimeB = this.getInnerValue(html, classNames[44], 2);
-            flightData.fromScheduleZoneB = this.getInnerValue(html, classNames[59], 2);
+            flightData.fromDate = this.getInnerValue(html, classNames[42], 0);
+            flightData.fromScheduleTitleA = this.getInnerValue(html, classNames[43], 0);
+            flightData.fromScheduleTitleB = this.getInnerValue(html, classNames[43], 1);
+            flightData.fromScheduleTimeA = this.getInnerValue(html, classNames[44], 0);
+            flightData.fromScheduleZoneA = this.getInnerValue(html, classNames[59], 0);
+            flightData.fromScheduleTimeB = this.getInnerValue(html, classNames[44], 1);
+            flightData.fromScheduleZoneB = this.getInnerValue(html, classNames[59], 1);
 
-            flightData.toAirport = this.getInnerValue(html, classNames[57], 2);
-            flightData.toAddress = this.getInnerValue(html, classNames[39], 2);
-            flightData.toName = this.getInnerValue(html, classNames[40], 2);
+            flightData.toAirport = this.getInnerValue(html, classNames[57], 1);
+            flightData.toAddress = this.getInnerValue(html, classNames[39], 1);
+            flightData.toName = this.getInnerValue(html, classNames[40], 1);
 
-            flightData.toDate = this.getInnerValue(html, classNames[42], 2);
-            flightData.toScheduleTitleA = this.getInnerValue(html, classNames[43], 3);
-            flightData.toScheduleTitleB = this.getInnerValue(html, classNames[43], 4);
-            flightData.toScheduleTimeA = this.getInnerValue(html, classNames[44], 5);
-            flightData.toScheduleZoneA = this.getInnerValue(html, classNames[59], 3);
-            flightData.toScheduleTimeB = this.getInnerValue(html, classNames[44], 6);
-            flightData.toScheduleZoneB = this.getInnerValue(html, classNames[59], 4);
+            flightData.toDate = this.getInnerValue(html, classNames[42], 1);
+            flightData.toScheduleTitleA = this.getInnerValue(html, classNames[43], 2);
+            flightData.toScheduleTitleB = this.getInnerValue(html, classNames[43], 3);
+            flightData.toScheduleTimeA = this.getInnerValue(html, classNames[44], 4);
+            flightData.toScheduleZoneA = this.getInnerValue(html, classNames[59], 2);
+            flightData.toScheduleTimeB = this.getInnerValue(html, classNames[44], 5);
+            flightData.toScheduleZoneB = this.getInnerValue(html, classNames[59], 3);
           }
 
           if (isDevMode())
@@ -80,19 +80,15 @@ export class FlightService {
   };
 
   private getInnerValue(source: string, className: string, whichMatch: number): string {
-    let re = `${className}[^>]+>([^<]+)`;
-    let output = source
-      .match(new RegExp(re, 'g'))
-      .toString()
-      .match(new RegExp(re));
+    let output = source.matchAll(new RegExp(`${className}[^>]+>([^<]+)`, 'g'));
 
     if (isDevMode()) {
-      console.log(`Getting value ${whichMatch} of '${className}' using '${re}'`);
+      console.log(`Getting value ${whichMatch} of '${className}'`);
       console.log(output);
     }
 
-    if (!output)
+    if (!output || !output[whichMatch])
       return `💩`;
-    return output[whichMatch];
+    return output[whichMatch][1];
   };
 }
