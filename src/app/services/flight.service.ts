@@ -12,14 +12,14 @@ export class FlightService {
 
   constructor(private http: HttpClient) { }
 
-  public fetchFlight(id: string, date: Date): Promise<string> {
+  public fetchFlight(id: string, date: Date): Promise<FlightData> {
     let flight = id.match(/([A-Za-z]+)([0-9]+)/);
     let url = `${this.api}/${flight[1]}/${flight[2]}?year=${date.getFullYear()}&month=${date.getMonth() + 1}&date=${date.getDate()}`;
 
     if (isDevMode())
       console.log('GET ', url);
 
-    return new Promise((resolve, reject) => {
+    return new Promise<FlightData>((resolve, reject) => {
       this.http.get(url, { responseType: 'text' })
         .subscribe(data => {
           let classNames = data.match(/data-styled-components="(.*?)"/)[1].split(' ');
@@ -30,51 +30,69 @@ export class FlightService {
           let flightData = new FlightData();
           let container = data.match(new RegExp(`${classBefore}"\>(.*?)${classAfter}`));
 
-          if (container == null)
-            return reject(`It appears there's no data for ${id} on this day.`);
-          //beter ook data aanmaken
+          if (container == null) {
+            flightData.flightNumber = `${flight[1]} ${flight[2]}`;
+            flightData.company = `Unknown Airline`;
+            flightData.status = `No flight data`;
+            flightData.error = `It appears there\'s no data for this flight on this day. Either does this flight not exist on this day, or something went wrong fetching its data.`;
+          } else {
+            let html = container[0].replace(/<a[^>]*>/gm, '');
 
-          let html = container[0].replace(/<a[^>]*>/gm, '');
+            if (isDevMode())
+              console.log(html);
 
-          flightData.flightNumber = this.getInnerValue(html, classNames[34], 1);
-          flightData.company = this.getInnerValue(html, classNames[35], 1);
-          flightData.status = this.getInnerValue(html, classNames[37], 1);
-          flightData.statusDetail = this.getInnerValue(html, classNames[38], 1);
+            flightData.flightNumber = this.getInnerValue(html, classNames[34], 1);
+            flightData.company = this.getInnerValue(html, classNames[35], 1);
+            flightData.status = this.getInnerValue(html, classNames[37], 1);
+            flightData.statusDetail = this.getInnerValue(html, classNames[38], 1);
 
-          flightData.fromAirport = this.getInnerValue(html, classNames[57], 1);
-          flightData.fromAddress = this.getInnerValue(html, classNames[39], 1);
-          flightData.fromName = this.getInnerValue(html, classNames[40], 1);
+            flightData.fromAirport = this.getInnerValue(html, classNames[57], 1);
+            flightData.fromAddress = this.getInnerValue(html, classNames[39], 1);
+            flightData.fromName = this.getInnerValue(html, classNames[40], 1);
 
-          flightData.fromDate = this.getInnerValue(html, classNames[42], 1);
-          flightData.fromScheduleTitleA = this.getInnerValue(html, classNames[43], 1);
-          flightData.fromScheduleTitleB = this.getInnerValue(html, classNames[43], 2);
-          flightData.fromScheduleTimeA = this.getInnerValue(html, classNames[44], 1);
-          flightData.fromScheduleZoneA = this.getInnerValue(html, classNames[59], 1);
-          flightData.fromScheduleTimeB = this.getInnerValue(html, classNames[44], 2);
-          flightData.fromScheduleZoneB = this.getInnerValue(html, classNames[59], 2);
+            flightData.fromDate = this.getInnerValue(html, classNames[42], 1);
+            flightData.fromScheduleTitleA = this.getInnerValue(html, classNames[43], 1);
+            flightData.fromScheduleTitleB = this.getInnerValue(html, classNames[43], 2);
+            flightData.fromScheduleTimeA = this.getInnerValue(html, classNames[44], 1);
+            flightData.fromScheduleZoneA = this.getInnerValue(html, classNames[59], 1);
+            flightData.fromScheduleTimeB = this.getInnerValue(html, classNames[44], 2);
+            flightData.fromScheduleZoneB = this.getInnerValue(html, classNames[59], 2);
 
-          flightData.toAirport = this.getInnerValue(html, classNames[57], 2);
-          flightData.toAddress = this.getInnerValue(html, classNames[39], 2);
-          flightData.toName = this.getInnerValue(html, classNames[40], 2);
+            flightData.toAirport = this.getInnerValue(html, classNames[57], 2);
+            flightData.toAddress = this.getInnerValue(html, classNames[39], 2);
+            flightData.toName = this.getInnerValue(html, classNames[40], 2);
 
-          flightData.toDate = this.getInnerValue(html, classNames[42], 2);
-          flightData.toScheduleTitleA = this.getInnerValue(html, classNames[43], 3);
-          flightData.toScheduleTitleB = this.getInnerValue(html, classNames[43], 4);
-          flightData.toScheduleTimeA = this.getInnerValue(html, classNames[44], 5);
-          flightData.toScheduleZoneA = this.getInnerValue(html, classNames[59], 3);
-          flightData.toScheduleTimeB = this.getInnerValue(html, classNames[44], 6);
-          flightData.toScheduleZoneB = this.getInnerValue(html, classNames[59], 4);
+            flightData.toDate = this.getInnerValue(html, classNames[42], 2);
+            flightData.toScheduleTitleA = this.getInnerValue(html, classNames[43], 3);
+            flightData.toScheduleTitleB = this.getInnerValue(html, classNames[43], 4);
+            flightData.toScheduleTimeA = this.getInnerValue(html, classNames[44], 5);
+            flightData.toScheduleZoneA = this.getInnerValue(html, classNames[59], 3);
+            flightData.toScheduleTimeB = this.getInnerValue(html, classNames[44], 6);
+            flightData.toScheduleZoneB = this.getInnerValue(html, classNames[59], 4);
+          }
 
           if (isDevMode())
             console.log(flightData);
 
-          return resolve('flightData');
+          resolve(flightData);
         });
     });
-  }
+  };
 
   private getInnerValue(source: string, className: string, whichMatch: number): string {
-    let output = source.match(new RegExp(`${className}[^>]+>([^<]+)`));
+    let re = `${className}[^>]+>([^<]+)`;
+    let output = source
+      .match(new RegExp(re, 'g'))
+      .toString()
+      .match(new RegExp(re));
+
+    if (isDevMode()) {
+      console.log(`Getting value ${whichMatch} of '${className}' using '${re}'`);
+      console.log(output);
+    }
+
+    if (!output)
+      return `💩`;
     return output[whichMatch];
-  }
+  };
 }

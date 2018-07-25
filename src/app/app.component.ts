@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 import { FlightComponent } from './components/flight/flight.component';
 
@@ -9,6 +9,8 @@ import { FlightComponent } from './components/flight/flight.component';
 })
 
 export class AppComponent {
+  private _activeQueue: number = -1;
+
   public d0: Date = new Date();
   public d1: Date = new Date();
   public d2: Date = new Date();
@@ -18,6 +20,18 @@ export class AppComponent {
   public flightsD2: Array<string> = [];
 
   public cardsLoading: number = 0;
+
+  @ViewChild("flightInput") flightInput: ElementRef;
+
+  get activeQueue() {
+    return this._activeQueue;
+  }
+
+  set activeQueue(activeQueue: number) {
+    this._activeQueue = activeQueue;
+    this.flightInput.nativeElement.value = "";
+    this.flightInput.nativeElement.focus();
+  }
 
   constructor() {
     console.log("Initializing...");
@@ -39,6 +53,11 @@ export class AppComponent {
     //   this.parseFlight(2, service.fetchFlight(flight, this.d1));
     // });
   }
+
+  addFlight = () => {
+    this[`flightsD${this._activeQueue}`].push(this.flightInput.nativeElement.value);
+    this.activeQueue = -1;
+  };
 
   parseFlight = (queue, promise) => {
     promise

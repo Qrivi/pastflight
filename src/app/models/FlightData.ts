@@ -1,4 +1,6 @@
 export class FlightData {
+  public error: string;
+
   public flightNumber: string;
   public company: string;
   public status: string;

@@ -1,4 +1,12 @@
 <div class="loading" [hidden]="!cardsLoading">&nbsp;</div>
+<div class="overlay" [ngClass]="{'hidden': activeQueue === -1}">
+  <div>
+    Enter flight number to fetch its details.
+    <input #flightInput maxlength="7">
+    <button (click)="activeQueue = -1">Cancel</button>
+    <button (click)="addFlight()">Submit</button>
+  </div>
+</div>
 
 <main>
   <section>
@@ -6,55 +14,10 @@
         {{ d0 | date :  "MMMM d" }}
         <span>Today</span>
     </h1>
-    <article *ngFor="let flight of flightsD0" [ngClass]="{'disabled': flight.disabled}">
-      <button [disabled]="flight.disabled" (click)="removeFlight( 0, flight )">&#x2716;</button>
-      <div [innerHTML]="flight.html"></div>
-    </article>
-
-    <article>
-      <header>
-        <h2>
-            FR 2955
-            <span>British Airways</span>
-        </h2>
-        <em>Arrived</em> delayed by 10 min
-        <button [disabled]="flight.disabled" (click)="removeFlight( 0, flight )">&#x2716;</button>
-      </header>
-      <div class="wrapper-details">
-        <div>
-          <div class="abbrev">LHR</div>
-          <div class="address">London, EN, GB</div>
-          <div class="name">London Heathrow Airport</div>
-          <time>19-Jul-2018</time>
-          <div class="wrapper-schedule">
-            <div>
-              <h3>Scheduled</h3>
-              <em>16:45</em> BST
-            </div>
-            <div>
-              <h3>Actual</h3>
-              <em>18:08</em> BST
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="abbrev">TLV</div>
-          <div class="address">Tel Aviv-Yafo, IL</div>
-          <div class="name">Ben Gurion International Airport</div>
-          <time>19-Jul-2018</time>
-          <div class="wrapper-schedule">
-            <div>
-              <h3>Scheduled</h3>
-              <em>23:35</em> IDT
-            </div>
-            <div>
-              <h3>Actual</h3>
-              <em>00:55</em> IDT
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
+    <ng-container *ngFor="let flight of flightsD0">
+      <app-flight [id]="flight" [date]="d0"></app-flight>
+    </ng-container>
+    <button (click)="activeQueue = 0">+</button>
   </section>
 
   <section>
@@ -62,10 +25,10 @@
         {{ d1 | date :  "MMMM d" }}
         <span>Yesterday</span>
     </h1>
-    <article *ngFor="let flight of flightsD1" [ngClass]="{'disabled': flight.disabled}">
-      <button [disabled]="flight.disabled" (click)="removeFlight( 1, flight )">&#x2716;</button>
-      <div [innerHTML]="flight.html"></div>
-    </article>
+    <ng-container *ngFor="let flight of flightsD1">
+      <app-flight [id]="flight" [date]="d0"></app-flight>
+    </ng-container>
+    <button (click)="activeQueue = 1">+</button>
   </section>
 
   <section>
@@ -73,9 +36,9 @@
         {{ d2 | date :  "MMMM d" }}
         <span>The day before</span>
     </h1>
-    <article *ngFor="let flight of flightsD2" [ngClass]="{'disabled': flight.disabled}">
-      <button [disabled]="flight.disabled" (click)="removeFlight( 2, flight )">&#x2716;</button>
-      <div [innerHTML]="flight.html"></div>
-    </article>
+    <ng-container *ngFor="let flight of flightsD2">
+      <app-flight [id]="flight" [date]="d0"></app-flight>
+    </ng-container>
+    <button (click)="activeQueue = 2">+</button>
   </section>
 </main>

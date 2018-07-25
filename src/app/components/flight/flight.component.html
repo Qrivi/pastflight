@@ -1,3 +1,47 @@
-<p>
-  flight works!
-</p>
+<article *ngIf="state === states.Ready">
+  <header>
+    <h2>
+        {{data.flightNumber}}
+        <span>{{data.company}}</span>
+    </h2>
+    <em>{{data.status}}</em> {{data.statusDetail}}
+    <button>&#x2716;</button>
+  </header>
+  <div class="wrapper-details error" [hidden]="!data.error">
+    {{data.error}}
+  </div>
+  <div class="wrapper-details" [hidden]="data.error">
+    <div>
+      <div class="abbrev">{{data.fromAirport}}</div>
+      <div class="address">{{data.fromAddress}}</div>
+      <div class="name">{{data.fromName}}</div>
+      <time>{{data.fromDate}}</time>
+      <div class="wrapper-schedule">
+        <div>
+          <h3>{{data.fromScheduleTitleA}}</h3>
+          <em>{{data.fromScheduleTimeA}}</em> {{data.fromScheduleZoneA}}
+        </div>
+        <div>
+          <h3>{{data.fromScheduleTitleB}}</h3>
+          <em>{{data.fromScheduleTimeB}}</em> {{data.fromScheduleZoneB}}
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="abbrev">{{data.toAirport}}</div>
+      <div class="address">{{data.toAddress}}</div>
+      <div class="name">{{data.toName}}</div>
+      <time>{{data.toDate}}</time>
+      <div class="wrapper-schedule">
+        <div>
+          <h3>{{data.toScheduleTitleA}}</h3>
+          <em>{{data.toScheduleTimeA}}</em> {{data.toScheduleZoneA}}
+        </div>
+        <div>
+          <h3>{{data.toScheduleTitleB}}</h3>
+          <em>{{data.toScheduleTimeB}}</em> {{data.toScheduleZoneB}}
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

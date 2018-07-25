@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 import { FlightService } from '../../services/flight.service';
 import { FlightData } from '../../models/FlightData';
@@ -13,11 +13,13 @@ enum FlightState {
   styleUrls: ['./flight.component.scss']
 })
 
-export class FlightComponent implements OnInit {
+export class FlightComponent {
   private _id: string;
   private _date: Date;
   public uuid: string;
   public state: FlightState;
+
+  public states: any = FlightState;
 
   public data: FlightData;
 
@@ -27,10 +29,10 @@ export class FlightComponent implements OnInit {
 
   @Input()
   set id(id: string) {
-    this._id = id.trim().toUpperCase();
+    this._id = id.replace(/[^0-9a-z]/gi, '').toUpperCase();
 
     if (this._date && this.state === FlightState.Init)
-      this.service.fetchFlight(this._id, this._date);
+      this.parseData(this.service.fetchFlight(this._id, this._date));
   }
 
   get date(): Date {
@@ -42,7 +44,7 @@ export class FlightComponent implements OnInit {
     this._date = date;
 
     if (this._id && this.state === FlightState.Init)
-      this.service.fetchFlight(this._id, this._date);
+      this.parseData(this.service.fetchFlight(this._id, this._date));
   }
 
   constructor(private service: FlightService) {
@@ -50,6 +52,11 @@ export class FlightComponent implements OnInit {
     this.state = FlightState.Init;
   }
 
-  ngOnInit() {
-  }
+  parseData = (promise: Promise<FlightData>) => {
+    this.state = FlightState.Loading;
+    promise.then((data) => {
+      this.data = data;
+      this.state = FlightState.Ready;
+    });
+  };
 }

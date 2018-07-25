@@ -1,5 +1,4 @@
-$accent: #019587;
-$treshold: 1000px;
+@import '../stylevars.scss';
 @keyframes fadein {
   from {
     opacity: 0;
@@ -30,6 +29,69 @@ $treshold: 1000px;
   animation: loading 1s infinite alternate ease-in-out;
 }
 
+.overlay {
+  z-index: 25;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: visible;
+  transition: top 500ms ease-in-out;
+
+  &.hidden {
+    top: -100%;
+
+    > div {
+      margin-top: 25%;
+      opacity: 0;
+    }
+  }
+
+  > div {
+    width: 90%;
+    max-width: 220px;
+    overflow: hidden;
+    margin: 40% auto 0;
+    padding: 15px 20px;
+    background: #FFFFFF;
+    color: #343434;
+    border-radius: 10px;
+    font-size: 0.6em;
+    text-align: center;
+    box-shadow: 0 0 150px 50px #343434;
+    transition: opacity 500ms;
+
+    input {
+      display: block;
+      width: 100%;
+      margin: 0 0 10px;
+      padding: 5px 0;
+      border: none;
+      border-bottom: solid 1px $accent;
+      font: inherit;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    button {
+      display: inline-block;
+      width: 60px;
+      height: 25px;
+      margin: 0 15px;
+      curser: pointer;
+      border: none;
+      background: $accent;
+      color: #FFF;
+      border-radius: 20px;
+      font: inherit;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+}
+
 main {
   position: relative;
   z-index: 1;
@@ -56,13 +118,28 @@ main {
     margin: 0 auto;
     padding: 0 0 25px;
     -ms-overflow-style: none;
-    overflow-y: auto;
     @media screen and (max-width: $treshold) {
       height: auto;
     }
 
     &::-webkit-scrollbar {
       display: none;
+    }
+
+    > button {
+      display: block;
+      width: auto;
+      height: auto;
+      margin: 10px auto;
+      padding: 9px 12px;
+      background-color: $accent;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+      font-size: 1.5em;
     }
 
     > h1 {
@@ -86,111 +163,6 @@ main {
         font-weight: 200;
         font-size: 0.5em;
       }
-    }
-  }
-}
-
-article {
-  position: relative;
-  z-index: 1;
-  margin: 1vw 10px 4vw;
-  padding: 20px 30px;
-  width: calc(100% - 20px);
-  max-height: 550px;
-  border-radius: 5px;
-  background-color: $accent;
-  overflow: hidden;
-  user-select: text;
-  transition: opacity 300ms ease-out, max-height 200ms 300ms ease-out, margin 200ms 300ms ease-out;
-  animation: fadein 500ms;
-  @media screen and (max-width: $treshold) {
-    margin: 10px;
-  }
-
-  &.disabled {
-    margin: 0 10px;
-    max-height: 0;
-    opacity: 0;
-  }
-
-  &:hover button {
-    opacity: 1;
-  }
-
-  button {
-    color: #FFFFFF;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: 1.4em;
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    opacity: 0;
-    transition: opacity 500ms;
-  }
-
-  em {
-    font-weight: 600;
-  }
-
-  > header {
-    border-bottom: solid 1px #fff;
-    padding-bottom: 10px;
-    font-size: 0.8em;
-
-    h2 {
-      font-weight: 600;
-      font-size: 1.6em;
-      line-height: 1em;
-      padding-bottom: 10px;
-
-      span {
-        display: block;
-        font-weight: 200;
-      }
-    }
-  }
-
-  .wrapper-details {
-    display: flex;
-    flex-wrap: wrap;
-
-    > div {
-      text-align: center;
-      flex: 1 1 auto;
-      margin: 30px 10px 10px;
-    }
-
-    .abbrev {
-      font-size: 1.5em;
-    }
-
-    .address {
-      padding-top: 10px;
-    }
-
-    .name {
-      font-size: 0.7em;
-    }
-
-    time {
-      display: block;
-      padding-top: 20px;
-      font-size: 0.6em;
-    }
-  }
-
-  .wrapper-schedule {
-    display: flex;
-
-    > div {
-      flex: 1 0 50%;
-    }
-
-    h3 {
-      font-size: 0.6em;
     }
   }
 }
