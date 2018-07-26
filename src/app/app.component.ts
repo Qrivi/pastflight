@@ -37,43 +37,11 @@ export class AppComponent {
     console.log("Initializing...");
     this.d1.setDate(this.d1.getDate() - 1);
     this.d2.setDate(this.d2.getDate() - 2);
-
-    // // flights for today
-    // ['FR2955', 'KD123'].forEach((flight) => {
-    //   this.parseFlight(0, service.fetchFlight(flight, this.d1));
-    // });
-    //
-    // // flights for yesterday
-    // ['BA165', 'LY316'].forEach((flight) => {
-    //   this.parseFlight(1, service.fetchFlight(flight, this.d1));
-    // });
-    //
-    // // flights for the day before yesterday
-    // ['LY318', 'BA167'].forEach((flight) => {
-    //   this.parseFlight(2, service.fetchFlight(flight, this.d1));
-    // });
   }
 
   addFlight = () => {
     this[`flightsD${this._activeQueue}`].push(this.flightInput.nativeElement.value);
     this.activeQueue = -1;
-  };
-
-  parseFlight = (queue, promise) => {
-    promise
-      .then((flight) => {
-        this[`flightsD${queue}`].push(
-          new FlightData(UUID.UUID(), flight)
-        );
-      })
-      .catch((error) => {
-        this[`flightsD${queue}`].push(
-          new FlightData(UUID.UUID(), `<div class='error'><div>Whoops...</div>${error}</div>`)
-        );
-      })
-      .finally(() => {
-        this.cardsLoading--;
-      });
     this.cardsLoading++;
   };
 

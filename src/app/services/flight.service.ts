@@ -32,9 +32,9 @@ export class FlightService {
 
           if (container == null) {
             flightData.flightNumber = `${flight[1]} ${flight[2]}`;
-            flightData.company = `Unknown Airline`;
-            flightData.status = `No flight data`;
-            flightData.error = `It appears there\'s no data for this flight on this day. Either does this flight not exist on this day, or something went wrong fetching its data.`;
+            flightData.company = `Unknown Flight`;
+            flightData.status = `No data`;
+            flightData.error = `It appears there\'s no data for this flight on this day. Either does this flight not exist on this day, or it does but something went wrong fetching its data.`;
           } else {
             let html = container[0].replace(/<a[^>]*>/gm, '');
 

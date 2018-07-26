@@ -2,7 +2,7 @@
 <div class="overlay" [ngClass]="{'hidden': activeQueue === -1}">
   <div>
     Enter flight number to fetch its details.
-    <input (keyup.enter)="addFlight()" maxlength="7" #flightInput>
+    <input (keyup.esc)="activeQueue = -1" (keyup.enter)="addFlight()" maxlength="7" #flightInput>
     <button (click)="activeQueue = -1">Cancel</button>
     <button (click)="addFlight()">Submit</button>
   </div>

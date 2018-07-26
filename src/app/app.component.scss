@@ -40,10 +40,10 @@
   transition: top 500ms ease-in-out;
 
   &.hidden {
-    top: -100%;
+    top: -100vh;
 
     > div {
-      margin-top: 25%;
+      margin-top: 25vh;
       opacity: 0;
     }
   }
@@ -52,7 +52,7 @@
     width: 90%;
     max-width: 220px;
     overflow: hidden;
-    margin: 40% auto 0;
+    margin: 40vh auto 0;
     padding: 15px 20px;
     background: #FFFFFF;
     color: #343434;
@@ -60,7 +60,7 @@
     font-size: 0.6em;
     text-align: center;
     box-shadow: 0 0 150px 50px #343434;
-    transition: opacity 500ms;
+    transition: opacity 250ms;
 
     input {
       display: block;
@@ -106,7 +106,12 @@ main {
   @media screen and (max-width: $treshold) {
     height: auto;
     display: block;
-    overflow-y: auto;
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
   }
 
   section {
@@ -118,12 +123,11 @@ main {
     margin: 0 auto;
     padding: 0 0 25px;
     -ms-overflow-style: none;
+    overflow-y: scroll;
     @media screen and (max-width: $treshold) {
       height: auto;
-    }
-
-    &::-webkit-scrollbar {
-      display: none;
+      overflow-x: visible;
+      overflow-y: visible;
     }
 
     > button {

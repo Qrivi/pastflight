@@ -5,7 +5,7 @@
         <span>{{data.company}}</span>
     </h2>
     <em>{{data.status}}</em> {{data.statusDetail}}
-    <button>&#x2716;</button>
+    <button (click)="state = states.Obsolete">&#x2716;</button>
   </header>
   <div *ngIf="data.error" class="error">
     {{data.error}}

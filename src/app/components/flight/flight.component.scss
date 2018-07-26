@@ -14,7 +14,7 @@ article {
   transition: opacity 300ms ease-out, max-height 200ms 300ms ease-out, margin 200ms 300ms ease-out;
   animation: fadein 500ms;
   @media screen and (max-width: $treshold) {
-    margin: 10px;
+    margin: 10px 10px 20px;
   }
 
   &.disabled {
