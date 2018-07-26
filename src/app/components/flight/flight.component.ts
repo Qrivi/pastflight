@@ -51,7 +51,7 @@ export class FlightComponent {
     this.state = new BehaviorSubject<FlightState>(FlightState.Init);
   }
 
-  parseData = (promise: Promise<FlightData>) => {
+  parseData = (promise: Promise<FlightData>): void => {
     this.state.next(FlightState.Loading);
     promise.then((data) => {
       this.data = data;

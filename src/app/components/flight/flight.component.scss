@@ -11,7 +11,7 @@ article {
   background-color: $accent;
   overflow: hidden;
   user-select: text;
-  transition: opacity 300ms ease-out, max-height 200ms 300ms ease-out, margin 200ms 300ms ease-out;
+  transition: opacity 300ms ease-out, max-height 200ms 300ms ease-out, margin 200ms 300ms ease-out, padding 200ms 300ms ease-out;
   animation: fadein 500ms;
   @media screen and (max-width: $treshold) {
     margin: 10px 10px 20px;
@@ -19,6 +19,7 @@ article {
 
   &.disabled {
     margin: 0 10px;
+    padding: 0 30px;
     max-height: 0;
     opacity: 0;
   }

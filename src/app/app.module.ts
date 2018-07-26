@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { FlightComponent } from './components/flight/flight.component';
+import { AppRoutingModule } from './/app-routing.module';
 
 String.prototype.matchAll = function(regexp) {
   let matches = [];
@@ -24,7 +25,8 @@ String.prototype.matchAll = function(regexp) {
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
