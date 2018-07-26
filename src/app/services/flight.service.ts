@@ -9,6 +9,7 @@ import { isDevMode } from '@angular/core';
 export class FlightService {
 
   private api: string = 'https://cors-anywhere.herokuapp.com/https://www.flightstats.com/v2/flight-tracker';
+  private fullLog: boolean = false;
 
   constructor(private http: HttpClient) { }
 
@@ -38,7 +39,7 @@ export class FlightService {
           } else {
             let html = container[0].replace(/<a[^>]*>/gm, '');
 
-            if (isDevMode())
+            if (this.fullLog && isDevMode())
               console.log(html);
 
             flightData.flightNumber = this.getInnerValue(html, classNames[34], 0);
@@ -71,21 +72,22 @@ export class FlightService {
             flightData.toScheduleZoneB = this.getInnerValue(html, classNames[59], 3);
           }
 
-          if (isDevMode())
+          if (this.fullLog && isDevMode())
             console.log(flightData);
 
           resolve(flightData);
         });
+    }).catch((err) => {
+      alert(`The service is not responding (${err})`);
+      throw new Error(err);
     });
   };
 
   private getInnerValue(source: string, className: string, whichMatch: number): string {
     let output = source.matchAll(new RegExp(`${className}[^>]+>([^<]+)`, 'g'));
 
-    if (isDevMode()) {
-      console.log(`Getting value ${whichMatch} of '${className}'`);
-      console.log(output);
-    }
+    if (this.fullLog && isDevMode())
+      console.log(`Value ${whichMatch} of '${className}': ${output}`);
 
     if (!output || !output[whichMatch])
       return `💩`;

@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { UUID } from 'angular2-uuid';
-import { FlightComponent } from './components/flight/flight.component';
+import { FlightState } from './models/FlightState';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,7 @@ import { FlightComponent } from './components/flight/flight.component';
 
 export class AppComponent {
   private _activeQueue: number = -1;
+  public cardsLoading: number = 0;
 
   public d0: Date = new Date();
   public d1: Date = new Date();
@@ -18,8 +19,6 @@ export class AppComponent {
   public flightsD0: Array<string> = [];
   public flightsD1: Array<string> = [];
   public flightsD2: Array<string> = [];
-
-  public cardsLoading: number = 0;
 
   @ViewChild("flightInput") flightInput: ElementRef;
 
@@ -40,21 +39,28 @@ export class AppComponent {
   }
 
   addFlight = () => {
-    this[`flightsD${this._activeQueue}`].push(this.flightInput.nativeElement.value);
+    if (this.activeQueue !== -1) {
+      this.cardsLoading++;
+      this[`flightsD${this._activeQueue}`].push(this.flightInput.nativeElement.value);
+    }
     this.activeQueue = -1;
-    this.cardsLoading++;
   };
 
-  removeFlight = (queue, flight) => {
-    flight.disabled = true;
-    setTimeout(() => {
-      this[`flightsD${queue}`] = this[`flightsD${queue}`].filter((f) => {
-        return f.id !== flight.id;
-      });
-    }, 500);
-  };
-}
+  // removeFlight = (id: string, queue: number) => {
+  //   setTimeout(() => {
+  //     this[`flightsD${queue}`].splice(this[`flightsD${queue}`].indexOf(id), 1);
+  //     console.log(this[`flightsD${queue}`]);
+  //   }, 3000);
+  // };
 
-class FlightData {
-  constructor(public id: string, public html: string, public disabled?: boolean) { }
+  handleFlightStateChange = (state: FlightState) => {
+    switch (state) {
+      case FlightState.Ready:
+        this.cardsLoading--;
+        break;
+      case FlightState.Obsolete:
+        //this.removeFlight(flight.id, queue);
+        break;
+    }
+  };
 }

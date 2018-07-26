@@ -30,6 +30,8 @@ article {
   button {
     color: #FFFFFF;
     background: transparent;
+    width: 27px;
+    height: 27px;
     border: none;
     outline: none;
     cursor: pointer;
@@ -43,18 +45,21 @@ article {
 
   em {
     font-weight: 600;
+    text-transform: none;
   }
 
   > header {
     border-bottom: solid 1px #fff;
     padding-bottom: 10px;
     font-size: 0.8em;
+    text-transform: lowercase;
 
     h2 {
       font-weight: 600;
       font-size: 1.6em;
       line-height: 1em;
       padding-bottom: 10px;
+      text-transform: none;
 
       span {
         display: block;

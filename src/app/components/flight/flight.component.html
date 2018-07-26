@@ -1,11 +1,11 @@
-<article *ngIf="state === states.Ready">
+<article *ngIf="state.value === states.Ready || state.value === states.Obsolete" [ngClass]="{'disabled':state.value === states.Obsolete}">
   <header>
     <h2>
         {{data.flightNumber}}
         <span>{{data.company}}</span>
     </h2>
     <em>{{data.status}}</em> {{data.statusDetail}}
-    <button (click)="state = states.Obsolete">&#x2716;</button>
+    <button [disabled]="state.value !== states.Ready" (click)="state.next(states.Obsolete)">&#x2716;</button>
   </header>
   <div *ngIf="data.error" class="error">
     {{data.error}}
