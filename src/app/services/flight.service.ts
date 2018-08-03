@@ -8,8 +8,8 @@ import { isDevMode } from '@angular/core';
 })
 export class FlightService {
 
-  private api: string = 'https://cors-anywhere.herokuapp.com/https://www.flightstats.com/v2/flight-tracker';
-  private fullLog: boolean = false;
+  private api: string = 'https://kors-anywhere.herokuapp.com/https://www.flightstats.com/v2/flight-tracker';
+  private fullLog: boolean = true
 
   constructor(private http: HttpClient) { }
 
@@ -25,11 +25,11 @@ export class FlightService {
         .subscribe(data => {
           let classNames = data.match(/data-styled-components="(.*?)"/)[1].split(' ');
 
-          let classBefore = classNames[29];
-          let classAfter = classNames[65];
+          let classBefore = classNames[12];
+          let classAfter = classNames[44];
 
           let flightData = new FlightData();
-          let container = data.match(new RegExp(`${classBefore}"\>(.*?)${classAfter}`));
+          let container = data.match(new RegExp(`${classBefore}"(.*?)${classAfter}"`));
 
           if (container == null) {
             flightData.flightNumber = `${flight[1]} ${flight[2]}`;
@@ -37,39 +37,39 @@ export class FlightService {
             flightData.status = `No data`;
             flightData.error = `It appears there\'s no data for this flight on this day. Either does this flight not exist on this day, or it does but something went wrong fetching its data.`;
           } else {
-            let html = container[0].replace(/<a[^>]*>/gm, '');
+            let html = container[0];//.replace(/<a[^>]*>/gm, '');
 
             if (this.fullLog && isDevMode())
               console.log(html);
 
-            flightData.flightNumber = this.getInnerValue(html, classNames[34], 0);
-            flightData.company = this.getInnerValue(html, classNames[35], 0);
-            flightData.status = this.getInnerValue(html, classNames[37], 0);
-            flightData.statusDetail = this.getInnerValue(html, classNames[38], 0);
+            flightData.flightNumber = this.getInnerValue(html, classNames[13], 0);
+            flightData.company = this.getInnerValue(html, classNames[14], 0);
+            flightData.status = this.getInnerValue(html, classNames[23], 0);
+            flightData.statusDetail = this.getInnerValue(html, classNames[24], 0);
 
-            flightData.fromAirport = this.getInnerValue(html, classNames[57], 0);
-            flightData.fromAddress = this.getInnerValue(html, classNames[39], 0);
-            flightData.fromName = this.getInnerValue(html, classNames[40], 0);
+            flightData.fromAirport = this.getInnerValue(html, classNames[28], 0);
+            flightData.fromAddress = this.getInnerValue(html, classNames[29], 0);
+            flightData.fromName = this.getInnerValue(html, classNames[30], 0);
 
-            flightData.fromDate = this.getInnerValue(html, classNames[42], 0);
-            flightData.fromScheduleTitleA = this.getInnerValue(html, classNames[43], 0);
-            flightData.fromScheduleTitleB = this.getInnerValue(html, classNames[43], 1);
-            flightData.fromScheduleTimeA = this.getInnerValue(html, classNames[44], 0);
-            flightData.fromScheduleZoneA = this.getInnerValue(html, classNames[59], 0);
-            flightData.fromScheduleTimeB = this.getInnerValue(html, classNames[44], 1);
-            flightData.fromScheduleZoneB = this.getInnerValue(html, classNames[59], 1);
+            flightData.fromDate = this.getInnerValue(html, classNames[32], 0);
+            flightData.fromScheduleTitleA = this.getInnerValue(html, classNames[33], 0);
+            flightData.fromScheduleTitleB = this.getInnerValue(html, classNames[33], 1);
+            flightData.fromScheduleTimeA = this.getInnerValue(html, classNames[34], 0);
+            flightData.fromScheduleZoneA = this.getInnerValue(html, classNames[49], 0);
+            flightData.fromScheduleTimeB = this.getInnerValue(html, classNames[34], 1);
+            flightData.fromScheduleZoneB = this.getInnerValue(html, classNames[49], 1);
 
-            flightData.toAirport = this.getInnerValue(html, classNames[57], 1);
-            flightData.toAddress = this.getInnerValue(html, classNames[39], 1);
-            flightData.toName = this.getInnerValue(html, classNames[40], 1);
+            flightData.toAirport = this.getInnerValue(html, classNames[28], 1);
+            flightData.toAddress = this.getInnerValue(html, classNames[29], 1);
+            flightData.toName = this.getInnerValue(html, classNames[30], 1);
 
-            flightData.toDate = this.getInnerValue(html, classNames[42], 1);
-            flightData.toScheduleTitleA = this.getInnerValue(html, classNames[43], 2);
-            flightData.toScheduleTitleB = this.getInnerValue(html, classNames[43], 3);
-            flightData.toScheduleTimeA = this.getInnerValue(html, classNames[44], 4);
-            flightData.toScheduleZoneA = this.getInnerValue(html, classNames[59], 2);
-            flightData.toScheduleTimeB = this.getInnerValue(html, classNames[44], 5);
-            flightData.toScheduleZoneB = this.getInnerValue(html, classNames[59], 3);
+            flightData.toDate = this.getInnerValue(html, classNames[32], 1);
+            flightData.toScheduleTitleA = this.getInnerValue(html, classNames[33], 2);
+            flightData.toScheduleTitleB = this.getInnerValue(html, classNames[33], 3);
+            flightData.toScheduleTimeA = this.getInnerValue(html, classNames[34], 4);
+            flightData.toScheduleZoneA = this.getInnerValue(html, classNames[49], 2);
+            flightData.toScheduleTimeB = this.getInnerValue(html, classNames[34], 5);
+            flightData.toScheduleZoneB = this.getInnerValue(html, classNames[49], 3);
           }
 
           if (this.fullLog && isDevMode())

@@ -44,7 +44,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.subscription = this.route.queryParams
       .subscribe(params => {
-        console.log('parsing request params')
         if (params.d0)
           params.d0.split(',').forEach((p) => {
             if (p.match(/^\D{1,2}\d{1,4}$/))
