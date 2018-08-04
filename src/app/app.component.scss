@@ -59,8 +59,12 @@
     border-radius: 10px;
     font-size: 0.6em;
     text-align: center;
-    box-shadow: 0 0 150px 50px #343434;
+    box-shadow: 0 0 75px 25px #343434;
     transition: opacity 250ms;
+
+    @media screen and (max-width: $treshold) {
+      margin-top: 20vh;
+    }
 
     input {
       display: block;
