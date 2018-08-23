@@ -13,6 +13,13 @@ export class FlightService {
 
   public fetchFlight(id: string, date: Date): Promise<any> {
     const flight = id.match(/([A-Za-z]+)([0-9]+)/);
+
+    if (!flight) {
+      return new Promise((resolve, reject) => {
+        resolve({});
+      });
+    }
+
     const url = `${this.api}/${flight[1]}/${flight[2]}?year=${date.getFullYear()}&month=${date.getMonth() + 1}&date=${date.getDate()}`;
 
     if (isDevMode()) {
@@ -31,7 +38,7 @@ export class FlightService {
         return json;
       })
       .catch((err) => {
-        alert(`The service is not responding (${err})`);
+        alert(`The service is not responding (${err.message})`);
         throw new Error(err);
       });
   }

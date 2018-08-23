@@ -1,8 +1,8 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { FlightState } from './models/FlightState';
-import { Animations } from './animations/animations'
+import { Animations } from './animations/animations';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +13,14 @@ import { Animations } from './animations/animations'
   ]
 })
 
+// TODO save flights to cookie as well, in addition to get params
+// TODO show small colored dot on cards to indicate status
+
 export class AppComponent implements OnInit {
+  private _actionTaken = false;
   private _activeQueue = -1;
   public cardsLoading = 0;
   public shakeAnimationState = 'inactive';
-
-  private subscription: Subscription;
 
   public d0: Date = new Date();
   public d1: Date = new Date();
@@ -47,7 +49,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscription = this.route.queryParams
+    this.route.queryParams
+      .pipe(takeWhile( () => !this._actionTaken ))
       .subscribe(params => {
         if (params.d0) {
           params.d0.split(',').forEach((p) => {
@@ -74,48 +77,52 @@ export class AppComponent implements OnInit {
   }
 
   addFlight = (id?: string, queue?: number): void => {
-    const i = id !== undefined ? id : this.flightInput.nativeElement.value.replace(/\s/g, '');
+    const i = id !== undefined ? id : this.flightInput.nativeElement.value.replace(/[^0-9a-z]/g, '');
     const q = queue !== undefined ? queue : this.activeQueue;
 
-    if (!i.length || q === -1) {
+    if (!i.length || q === -1 || this[`flightsD${q}`].includes(i.toUpperCase())) {
       this.shakeAnimationState = 'active';
       return;
     }
 
     this.cardsLoading++;
-    this[`flightsD${q}`].push(i);
+    this[`flightsD${q}`].push(i.toUpperCase());
 
     if (queue === undefined) {
+      this._actionTaken = true;
       this.activeQueue = -1;
-      this.subscription.unsubscribe();
-      this.router.navigate([], {
-        queryParams: {
-          d0: this.flightsD0.join().toUpperCase(),
-          d1: this.flightsD1.join().toUpperCase(),
-          d2: this.flightsD2.join().toUpperCase()
-        },
-        relativeTo: this.route
-      });
+      this.updateRoute();
     }
   }
 
-  // removeFlight = (id: string, queue: number) => {
-  //   setTimeout(() => {
-  //     this[`flightsD${queue}`].splice(this[`flightsD${queue}`].indexOf(id), 1);
-  //     console.log(this[`flightsD${queue}`]);
-  //    // + remove from queryparams
-  //   }, 3000);
-  // };
+  removeFlight = (id: string, queue: number) => {
+    setTimeout(() => {
+      this[`flightsD${queue}`].splice(this[`flightsD${queue}`].indexOf(id), 1);
+      this.updateRoute();
+    }, 500);
+    this._actionTaken = true;
+  }
 
-  handleFlightStateChange = (state: FlightState): void => {
+  handleFlightStateChange = (id: string, queue: number, state: FlightState): void => {
     switch (state) {
       case FlightState.Ready:
         this.cardsLoading--;
         console.log(`Card loaded. ${this.cardsLoading} cards still loading.`);
         break;
       case FlightState.Obsolete:
-        // this.removeFlight(flight.id, queue);
+        this.removeFlight(id, queue);
         break;
     }
+  }
+
+  updateRoute = () => {
+    this.router.navigate([], {
+      queryParams: {
+        d0: this.flightsD0.join(),
+        d1: this.flightsD1.join(),
+        d2: this.flightsD2.join()
+      },
+      relativeTo: this.route
+    });
   }
 }

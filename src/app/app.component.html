@@ -15,7 +15,7 @@
         <span>Today</span>
     </h1>
     <ng-container *ngFor="let flight of flightsD0">
-      <app-flight [id]="flight" [date]="d0" (state)="handleFlightStateChange($event)"></app-flight>
+      <app-flight [id]="flight" [date]="d0" (state)="handleFlightStateChange(flight, 0, $event)"></app-flight>
     </ng-container>
     <button (click)="activeQueue = 0">+</button>
   </section>
@@ -26,7 +26,7 @@
         <span>Yesterday</span>
     </h1>
     <ng-container *ngFor="let flight of flightsD1">
-      <app-flight [id]="flight" [date]="d1" (state)="handleFlightStateChange($event)"></app-flight>
+      <app-flight [id]="flight" [date]="d1" (state)="handleFlightStateChange(flight, 1, $event)"></app-flight>
     </ng-container>
     <button (click)="activeQueue = 1">+</button>
   </section>
@@ -37,7 +37,7 @@
         <span>The day before</span>
     </h1>
     <ng-container *ngFor="let flight of flightsD2">
-      <app-flight [id]="flight" [date]="d2" (state)="handleFlightStateChange($event)"></app-flight>
+      <app-flight [id]="flight" [date]="d2" (state)="handleFlightStateChange(flight, 2, $event)"></app-flight>
     </ng-container>
     <button (click)="activeQueue = 2">+</button>
   </section>

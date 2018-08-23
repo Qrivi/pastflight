@@ -25,7 +25,7 @@ export class FlightComponent {
 
   @Input()
   set id(id: string) {
-    this._id = id.replace(/[^0-9a-z]/gi, '').toUpperCase();
+    this._id = id;
 
     if (this._date && this.state.value === FlightState.Init) {
       this.parseData(this.service.fetchFlight(this._id, this._date));
