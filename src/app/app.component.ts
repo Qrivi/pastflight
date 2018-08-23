@@ -10,8 +10,8 @@ import { FlightState } from './models/FlightState';
 })
 
 export class AppComponent implements OnInit {
-  private _activeQueue: number = -1;
-  public cardsLoading: number = 0;
+  private _activeQueue = -1;
+  public cardsLoading = 0;
 
   private subscription: Subscription;
 
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   public flightsD1: Array<string> = [];
   public flightsD2: Array<string> = [];
 
-  @ViewChild("flightInput") flightInput: ElementRef;
+  @ViewChild('flightInput') flightInput: ElementRef;
 
   get activeQueue() {
     return this._activeQueue;
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
 
   set activeQueue(activeQueue: number) {
     this._activeQueue = activeQueue;
-    this.flightInput.nativeElement.value = "";
+    this.flightInput.nativeElement.value = '';
     this.flightInput.nativeElement.focus();
   }
 
@@ -44,30 +44,37 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.subscription = this.route.queryParams
       .subscribe(params => {
-        if (params.d0)
+        if (params.d0) {
           params.d0.split(',').forEach((p) => {
-            if (p.match(/^\D{1,2}\d{1,4}$/))
+            if (p.match(/^\D{1,2}\d{1,4}$/)) {
               this.addFlight(p, 0);
+            }
           });
-        if (params.d1)
+        }
+        if (params.d1) {
           params.d1.split(',').forEach((p) => {
-            if (p.match(/^\D{1,2}\d{1,4}$/))
+            if (p.match(/^\D{1,2}\d{1,4}$/)) {
               this.addFlight(p, 1);
+            }
           });
-        if (params.d2)
+        }
+        if (params.d2) {
           params.d2.split(',').forEach((p) => {
-            if (p.match(/^\D{1,2}\d{1,4}$/))
+            if (p.match(/^\D{1,2}\d{1,4}$/)) {
               this.addFlight(p, 2);
+            }
           });
+        }
       });
   }
 
   addFlight = (id?: string, queue?: number): void => {
-    let i = id !== undefined ? id : this.flightInput.nativeElement.value;
-    let q = queue !== undefined ? queue : this.activeQueue;
+    const i = id !== undefined ? id : this.flightInput.nativeElement.value;
+    const q = queue !== undefined ? queue : this.activeQueue;
 
-    if (q === -1)
+    if (q === -1) {
       return;
+    }
 
     this.cardsLoading++;
     this[`flightsD${q}`].push(i);
@@ -84,7 +91,7 @@ export class AppComponent implements OnInit {
         relativeTo: this.route
       });
     }
-  };
+  }
 
   // removeFlight = (id: string, queue: number) => {
   //   setTimeout(() => {
@@ -101,8 +108,8 @@ export class AppComponent implements OnInit {
         console.log(`Card loaded. ${this.cardsLoading} cards still loading.`);
         break;
       case FlightState.Obsolete:
-        //this.removeFlight(flight.id, queue);
+        // this.removeFlight(flight.id, queue);
         break;
     }
-  };
+  }
 }

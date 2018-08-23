@@ -20,27 +20,29 @@ export class FlightComponent {
   public data: any;
 
   get id(): string {
-    return this._id;;
+    return this._id;
   }
 
   @Input()
   set id(id: string) {
     this._id = id.replace(/[^0-9a-z]/gi, '').toUpperCase();
 
-    if (this._date && this.state.value === FlightState.Init)
+    if (this._date && this.state.value === FlightState.Init) {
       this.parseData(this.service.fetchFlight(this._id, this._date));
+    }
   }
 
   get date(): Date {
-    return this.date;;
+    return this.date;
   }
 
   @Input()
   set date(date: Date) {
     this._date = date;
 
-    if (this._id && this.state.value === FlightState.Init)
+    if (this._id && this.state.value === FlightState.Init) {
       this.parseData(this.service.fetchFlight(this._id, this._date));
+    }
   }
 
   constructor(private service: FlightService) {
@@ -53,5 +55,5 @@ export class FlightComponent {
       this.data = data;
       this.state.next(FlightState.Ready);
     });
-  };
+  }
 }
