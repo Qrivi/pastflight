@@ -1,6 +1,6 @@
 <div class="loading" [hidden]="!cardsLoading">&nbsp;</div>
 <div class="overlay" [ngClass]="{'hidden': activeQueue === -1}">
-  <div>
+  <div [@shake]="shakeAnimationState" (@shake.done)="shakeAnimationState = 'inactive'">
     Enter flight number to fetch its details.
     <input (keyup.esc)="activeQueue = -1" (keyup.enter)="addFlight()" maxlength="7" #flightInput>
     <button (click)="activeQueue = -1">Cancel</button>

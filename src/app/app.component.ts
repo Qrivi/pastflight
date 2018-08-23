@@ -2,16 +2,21 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FlightState } from './models/FlightState';
+import { Animations } from './animations/animations'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+      Animations.shakeTrigger
+  ]
 })
 
 export class AppComponent implements OnInit {
   private _activeQueue = -1;
   public cardsLoading = 0;
+  public shakeAnimationState = 'inactive';
 
   private subscription: Subscription;
 
@@ -69,10 +74,11 @@ export class AppComponent implements OnInit {
   }
 
   addFlight = (id?: string, queue?: number): void => {
-    const i = id !== undefined ? id : this.flightInput.nativeElement.value;
+    const i = id !== undefined ? id : this.flightInput.nativeElement.value.replace(/\s/g, '');
     const q = queue !== undefined ? queue : this.activeQueue;
 
-    if (q === -1) {
+    if (!i.length || q === -1) {
+      this.shakeAnimationState = 'active';
       return;
     }
 
