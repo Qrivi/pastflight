@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "ghp-build": "ng build --prod --base-href \"pastflight\"",
-    "ghp-publish": "npx ngh --dir=\"dist/pastflight\""
+    "ghp-publish": "npx ngh --dir=dist/pastflight"
   },
   "private": true,
   "dependencies": {
