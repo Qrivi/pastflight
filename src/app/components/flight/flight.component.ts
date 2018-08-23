@@ -1,8 +1,6 @@
 import { Component, Input, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { UUID } from 'angular2-uuid';
 import { FlightService } from '../../services/flight.service';
-import { FlightData } from '../../models/FlightData';
 import { FlightState } from '../../models/FlightState';
 
 @Component({
@@ -13,14 +11,13 @@ import { FlightState } from '../../models/FlightState';
 export class FlightComponent {
   private _id: string;
   private _date: Date;
-  public uuid: string;
 
   @Output()
   public state: BehaviorSubject<FlightState>;
 
   public states: any = FlightState;
 
-  public data: FlightData;
+  public data: any;
 
   get id(): string {
     return this._id;;
@@ -47,11 +44,10 @@ export class FlightComponent {
   }
 
   constructor(private service: FlightService) {
-    this.uuid = UUID.UUID();
     this.state = new BehaviorSubject<FlightState>(FlightState.Init);
   }
 
-  parseData = (promise: Promise<FlightData>): void => {
+  parseData = (promise: Promise<any>): void => {
     this.state.next(FlightState.Loading);
     promise.then((data) => {
       this.data = data;
