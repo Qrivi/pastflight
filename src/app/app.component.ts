@@ -51,23 +51,27 @@ export class AppComponent implements OnInit {
     this.route.queryParamMap
       .pipe(debounceTime(500), first())
       .subscribe(data => {
-        if (data.params) {
-          if (params.d0) {
-            params.d0.split(',').forEach((p) => {
+        const dataD0 = [...data.getAll('d0'), ...data.getAll('D0')].join();
+        const dataD1 = [...data.getAll('d1'), ...data.getAll('D1')].join();
+        const dataD2 = [...data.getAll('d2'), ...data.getAll('D2')].join();
+
+        if (dataD0 || dataD1 || dataD2) {
+          if (dataD0) {
+            dataD0.split(',').forEach((p) => {
               if (p.match(/^\D{1,2}\d{1,4}$/)) {
                 this.addFlight(p, 0);
               }
             });
           }
-          if (params.d1) {
-            params.d1.split(',').forEach((p) => {
+          if (dataD1) {
+            dataD1.split(',').forEach((p) => {
               if (p.match(/^\D{1,2}\d{1,4}$/)) {
                 this.addFlight(p, 1);
               }
             });
           }
-          if (params.d2) {
-            params.d2.split(',').forEach((p) => {
+          if (dataD2) {
+            dataD2.split(',').forEach((p) => {
               if (p.match(/^\D{1,2}\d{1,4}$/)) {
                 this.addFlight(p, 2);
               }
