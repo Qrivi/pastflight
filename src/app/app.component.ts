@@ -56,29 +56,9 @@ export class AppComponent implements OnInit {
         const dataD2 = [...data.getAll('d2'), ...data.getAll('D2')].join();
 
         if (dataD0 || dataD1 || dataD2) {
-          if (dataD0) {
-            dataD0.split(',').forEach((p) => {
-              if (p.match(/^\D{1,2}\d{1,4}$/)) {
-                this.addFlight(p, 0);
-              }
-            });
-          }
-          if (dataD1) {
-            dataD1.split(',').forEach((p) => {
-              if (p.match(/^\D{1,2}\d{1,4}$/)) {
-                this.addFlight(p, 1);
-              }
-            });
-          }
-          if (dataD2) {
-            dataD2.split(',').forEach((p) => {
-              if (p.match(/^\D{1,2}\d{1,4}$/)) {
-                this.addFlight(p, 2);
-              }
-            });
-          }
-        }else{
-          //localstorage
+          this.deserializeData(dataD0, dataD1, dataD2);
+        } else {
+          this.deserializeData(localStorage.getItem('d0'), localStorage.getItem('d1'), localStorage.getItem('d2'));
         }
       });
   }
@@ -97,14 +77,16 @@ export class AppComponent implements OnInit {
 
     if (queue === undefined) {
       this.activeQueue = -1;
-      this.updateRoute();
+      this.updateRoute(true);
+    } else {
+      this.updateRoute(false);
     }
   }
 
   removeFlight = (id: string, queue: number) => {
     setTimeout(() => {
       this[`flightsD${queue}`].splice(this[`flightsD${queue}`].indexOf(id), 1);
-      this.updateRoute();
+      this.updateRoute(true);
     }, 500);
   }
 
@@ -120,14 +102,46 @@ export class AppComponent implements OnInit {
     }
   }
 
-  updateRoute = () => {
+  updateRoute = (alterQueryParams: boolean) => {
+    const dataD0 = this.flightsD0.join();
+    const dataD1 = this.flightsD1.join();
+    const dataD2 = this.flightsD2.join();
+
+    localStorage.setItem('d0', dataD0);
+    localStorage.setItem('d1', dataD1);
+    localStorage.setItem('d2', dataD2);
+
     this.router.navigate([], {
       queryParams: {
-        d0: this.flightsD0.join(),
-        d1: this.flightsD1.join(),
-        d2: this.flightsD2.join()
+        d0: dataD0,
+        d1: dataD1,
+        d2: dataD2
       },
       relativeTo: this.route
     });
+  }
+
+  deserializeData = (dataD0: string, dataD1: string, dataD2: string) => {
+    if (dataD0) {
+      dataD0.split(',').forEach((p) => {
+        if (p.match(/^\D{1,2}\d{1,4}$/)) {
+          this.addFlight(p, 0);
+        }
+      });
+    }
+    if (dataD1) {
+      dataD1.split(',').forEach((p) => {
+        if (p.match(/^\D{1,2}\d{1,4}$/)) {
+          this.addFlight(p, 1);
+        }
+      });
+    }
+    if (dataD2) {
+      dataD2.split(',').forEach((p) => {
+        if (p.match(/^\D{1,2}\d{1,4}$/)) {
+          this.addFlight(p, 2);
+        }
+      });
+    }
   }
 }
