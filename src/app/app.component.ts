@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FlightState } from './models/FlightState';
 import { Animations } from './animations/animations';
-import { takeWhile } from 'rxjs/operators';
+import { first, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +17,6 @@ import { takeWhile } from 'rxjs/operators';
 // TODO show small colored dot on cards to indicate status
 
 export class AppComponent implements OnInit {
-  private _actionTaken = false;
   private _activeQueue = -1;
   public cardsLoading = 0;
   public shakeAnimationState = 'inactive';
@@ -49,29 +48,33 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams
-      .pipe(takeWhile( () => !this._actionTaken ))
-      .subscribe(params => {
-        if (params.d0) {
-          params.d0.split(',').forEach((p) => {
-            if (p.match(/^\D{1,2}\d{1,4}$/)) {
-              this.addFlight(p, 0);
-            }
-          });
-        }
-        if (params.d1) {
-          params.d1.split(',').forEach((p) => {
-            if (p.match(/^\D{1,2}\d{1,4}$/)) {
-              this.addFlight(p, 1);
-            }
-          });
-        }
-        if (params.d2) {
-          params.d2.split(',').forEach((p) => {
-            if (p.match(/^\D{1,2}\d{1,4}$/)) {
-              this.addFlight(p, 2);
-            }
-          });
+    this.route.queryParamMap
+      .pipe(debounceTime(500), first())
+      .subscribe(data => {
+        if (data.params) {
+          if (params.d0) {
+            params.d0.split(',').forEach((p) => {
+              if (p.match(/^\D{1,2}\d{1,4}$/)) {
+                this.addFlight(p, 0);
+              }
+            });
+          }
+          if (params.d1) {
+            params.d1.split(',').forEach((p) => {
+              if (p.match(/^\D{1,2}\d{1,4}$/)) {
+                this.addFlight(p, 1);
+              }
+            });
+          }
+          if (params.d2) {
+            params.d2.split(',').forEach((p) => {
+              if (p.match(/^\D{1,2}\d{1,4}$/)) {
+                this.addFlight(p, 2);
+              }
+            });
+          }
+        }else{
+          //localstorage
         }
       });
   }
@@ -89,7 +92,6 @@ export class AppComponent implements OnInit {
     this[`flightsD${q}`].push(i.toUpperCase());
 
     if (queue === undefined) {
-      this._actionTaken = true;
       this.activeQueue = -1;
       this.updateRoute();
     }
@@ -100,7 +102,6 @@ export class AppComponent implements OnInit {
       this[`flightsD${queue}`].splice(this[`flightsD${queue}`].indexOf(id), 1);
       this.updateRoute();
     }, 500);
-    this._actionTaken = true;
   }
 
   handleFlightStateChange = (id: string, queue: number, state: FlightState): void => {
