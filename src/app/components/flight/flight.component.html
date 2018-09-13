@@ -1,0 +1,56 @@
+<article *ngIf="state.value === states.Ready || state.value === states.Obsolete" [ngClass]="{'disabled':state.value === states.Obsolete}">
+  <header *ngIf="!data.flight">
+    <h2>
+        {{id}}
+        <span>Unknown flight</span>
+    </h2>
+    <em>No data</em>
+    <button [disabled]="state.value !== states.Ready" (click)="state.next(states.Obsolete)">&#x2716;</button>
+  </header>
+  <header *ngIf="data.flight">
+    <h2>
+        {{data.flight.resultHeader.carrier.fs}} {{data.flight.resultHeader.flightNumber}}
+        <span>{{data.flight.resultHeader.carrier.name}}</span>
+    </h2>
+    <em>{{data.flight.resultHeader.status}}</em> {{data.flight.resultHeader.statusDescription}}
+    <button [disabled]="state.value !== states.Ready" (click)="state.next(states.Obsolete)">&#x2716;</button>
+  </header>
+
+  <div *ngIf="!data.flight" class="error">
+    It appears there's no data for this flight on this day. Either does this flight not exist on this day, or it does but something went wrong fetching its data.
+  </div>
+  <div *ngIf="data.flight" class="wrapper-details">
+    <div>
+      <div class="abbrev">{{data.flight.departureAirport.fs}}</div>
+      <div class="address">{{data.flight.departureAirport.city}}, {{data.flight.departureAirport.country}}</div>
+      <div class="name">{{data.flight.departureAirport.name}}</div>
+      <time>{{data.flight.departureAirport.date | date:'d-MMM-y'}}</time>
+      <div class="wrapper-schedule">
+        <div>
+          <h3>Scheduled</h3>
+          <em>{{data.flight.departureAirport.times.scheduled.time24}}</em> {{data.flight.departureAirport.times.scheduled.timezone}}
+        </div>
+        <div>
+          <h3>{{data.flight.departureAirport.times.estimatedActual.title}}</h3>
+          <em>{{data.flight.departureAirport.times.estimatedActual.time24}}</em> {{data.flight.departureAirport.times.estimatedActual.timezone}}
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="abbrev">{{data.flight.arrivalAirport.fs}}</div>
+      <div class="address">{{data.flight.arrivalAirport.city}}, {{data.flight.arrivalAirport.country}}</div>
+      <div class="name">{{data.flight.arrivalAirport.name}}</div>
+      <time>{{data.flight.arrivalAirport.date | date:'d-MMM-y'}}</time>
+      <div class="wrapper-schedule">
+        <div>
+          <h3>Scheduled</h3>
+          <em>{{data.flight.arrivalAirport.times.scheduled.time24}}</em> {{data.flight.arrivalAirport.times.scheduled.timezone}}
+        </div>
+        <div>
+          <h3>{{data.flight.arrivalAirport.times.estimatedActual.title}}</h3>
+          <em>{{data.flight.arrivalAirport.times.estimatedActual.time24}}</em> {{data.flight.arrivalAirport.times.estimatedActual.timezone}}
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

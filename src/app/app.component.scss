@@ -1,3 +1,176 @@
-main{
-    display: flex;
+@import '../stylevars.scss';
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+@keyframes loading {
+  from {
+    left: -10vw;
+  }
+
+  to {
+    left: 90vw;
+  }
+}
+
+.loading {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 20vw;
+  height: 5px;
+  background: $accent;
+  animation: loading 1s infinite alternate ease-in-out;
+}
+
+.overlay {
+  z-index: 25;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: visible;
+  transition: top 500ms ease-in-out;
+
+  &.hidden {
+    top: -100vh;
+
+    > div {
+      margin-top: 25vh;
+      opacity: 0;
+    }
+  }
+
+  > div {
+    width: 90%;
+    max-width: 220px;
+    overflow: hidden;
+    margin: 40vh auto 0;
+    padding: 15px 20px;
+    background: #FFFFFF;
+    color: #343434;
+    border-radius: 10px;
+    font-size: 0.6em;
+    text-align: center;
+    box-shadow: 0 0 75px 25px #343434;
+    transition: opacity 250ms;
+
+    @media screen and (max-width: $treshold) {
+      margin-top: 20vh;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      margin: 0 0 10px;
+      padding: 5px 0;
+      border: none;
+      border-bottom: solid 1px $accent;
+      font: inherit;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    button {
+      display: inline-block;
+      width: 60px;
+      height: 25px;
+      margin: 0 15px;
+      curser: pointer;
+      border: none;
+      background: $accent;
+      color: #FFF;
+      border-radius: 20px;
+      font: inherit;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  max-width: 2200px;
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  @media screen and (max-width: $treshold) {
+    height: auto;
+    display: block;
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  section {
+    display: block;
+    flex: 0 0 auto;
+    width: 100vw;
+    max-width: 500px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 0 25px;
+    -ms-overflow-style: none;
+    overflow-y: scroll;
+    @media screen and (max-width: $treshold) {
+      height: auto;
+      overflow-x: visible;
+      overflow-y: visible;
+    }
+
+    > button {
+      display: block;
+      width: auto;
+      height: auto;
+      margin: 10px auto;
+      padding: 9px 12px;
+      background-color: $accent;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+      font-size: 1.5em;
+    }
+
+    > h1 {
+      background: #343434;
+      color: #FAFAFA;
+      box-shadow: 0 0 15px 5px #343434;
+      position: sticky;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 1.4em;
+
+      span {
+        display: block;
+        font-weight: 200;
+        font-size: 0.5em;
+      }
+    }
+  }
 }

@@ -1,205 +1,44 @@
+<div class="loading" [hidden]="!cardsLoading">&nbsp;</div>
+<div class="overlay" [ngClass]="{'hidden': activeQueue === -1}">
+  <div [@shake]="shakeAnimationState" (@shake.done)="shakeAnimationState = 'inactive'">
+    Enter flight number to fetch its details.
+    <input (keyup.esc)="activeQueue = -1" (keyup.enter)="addFlight()" maxlength="7" #flightInput>
+    <button (click)="activeQueue = -1">Cancel</button>
+    <button (click)="addFlight()">Submit</button>
+  </div>
+</div>
+
 <main>
-    <section>
-        <div>
-            <div>
-                <div>
-                    <div>
-                        <div>LY 318</div>
-                        <div>El Al</div>
-                    </div>
-                    <div>
-                        <div>
-                            <div>
-                                <div>
-                                    <div>LHR</div>
-                                    <div>London</div>
-                                </div>
-                            </div>
-                            <div></div>
-                            <div>
-                                <div>
-                                    <div>TLV</div>
-                                    <div>Tel Aviv-Yafo</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div>Arrived</div>
-                <div>On time</div>
-            </div>
-        </div>
-        <div>
-            <div>
-                <div>
-                    <div>LHR</div>
-                    <div>London, EN, GB</div>
-                    <div>London Heathrow Airport</div>
-                </div>
-                <div>
-                    <div>Flight Departure Times</div>
-                    <div>05-Jul-2018</div>
-                </div>
-                <div>
-                    <div>
-                        <div>Scheduled</div>
-                        <div>22:30<span> BST</span></div>
-                    </div>
-                    <div>
-                        <div>Actual</div>
-                        <div>22:33<span> BST</span></div>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <div>Terminal</div>
-                        <div>4</div>
-                    </div>
-                    <div>
-                        <div>Gate</div>
-                        <div>3</div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div>
-                    <div>TLV</div>
-                    <div>Tel Aviv-Yafo, IL</div>
-                    <div>Ben Gurion International Airport</div>
-                </div>
-                <div>
-                    <div>Flight Arrival Times</div>
-                    <div>06-Jul-2018</div>
-                </div>
-                <div>
-                    <div>
-                        <div>Scheduled</div>
-                        <div>05:25<span> IDT</span></div>
-                    </div>
-                    <div>
-                        <div>Actual</div>
-                        <div>05:19<span> IDT</span></div>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <div>Terminal</div>
-                        <div>3</div>
-                    </div>
-                    <div>
-                        <div>Gate</div>
-                        <div>N/A</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <section>
+    <h1>
+        {{ d0 | date :  "MMMM d" }}
+        <span>Today</span>
+    </h1>
+    <ng-container *ngFor="let flight of flightsD0">
+      <app-flight [id]="flight" [date]="d0" (state)="handleFlightStateChange(flight, 0, $event)"></app-flight>
+    </ng-container>
+    <button (click)="activeQueue = 0">+</button>
+  </section>
 
-            <div>
-                <div>
-                    <div>
-                        <div>
-                            <div>LY 318</div>
-                            <div>El Al</div>
-                        </div>
-                        <div>
-                            <div>
-                                <div>
-                                    <div>
-                                        <div>LHR</div>
-                                        <div>London</div>
-                                    </div>
-                                </div>
-                                <div></div>
-                                <div>
-                                    <div>
-                                        <div>TLV</div>
-                                        <div>Tel Aviv-Yafo</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div>Arrived</div>
-                    <div>On time</div>
-                </div>
-            </div>
-            <div>
-                <div>
-                    <div>
-                        <div>LHR</div>
-                        <div>London, EN, GB</div>
-                        <div>London Heathrow Airport</div>
-                    </div>
-                    <div>
-                        <div>Flight Departure Times</div>
-                        <div>05-Jul-2018</div>
-                    </div>
-                    <div>
-                        <div>
-                            <div>Scheduled</div>
-                            <div>22:30<span> BST</span></div>
-                        </div>
-                        <div>
-                            <div>Actual</div>
-                            <div>22:33<span> BST</span></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <div>Terminal</div>
-                            <div>4</div>
-                        </div>
-                        <div>
-                            <div>Gate</div>
-                            <div>3</div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <div>TLV</div>
-                        <div>Tel Aviv-Yafo, IL</div>
-                        <div>Ben Gurion International Airport</div>
-                    </div>
-                    <div>
-                        <div>Flight Arrival Times</div>
-                        <div>06-Jul-2018</div>
-                    </div>
-                    <div>
-                        <div>
-                            <div>Scheduled</div>
-                            <div>05:25<span> IDT</span></div>
-                        </div>
-                        <div>
-                            <div>Actual</div>
-                            <div>05:19<span> IDT</span></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <div>Terminal</div>
-                            <div>3</div>
-                        </div>
-                        <div>
-                            <div>Gate</div>
-                            <div>N/A</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </section>
+  <section>
+    <h1>
+        {{ d1 | date :  "MMMM d" }}
+        <span>Yesterday</span>
+    </h1>
+    <ng-container *ngFor="let flight of flightsD1">
+      <app-flight [id]="flight" [date]="d1" (state)="handleFlightStateChange(flight, 1, $event)"></app-flight>
+    </ng-container>
+    <button (click)="activeQueue = 1">+</button>
+  </section>
 
-    <section>
-        This is a section
-    </section>
+  <section>
+    <h1>
+        {{ d2 | date :  "MMMM d" }}
+        <span>The day before</span>
+    </h1>
+    <ng-container *ngFor="let flight of flightsD2">
+      <app-flight [id]="flight" [date]="d2" (state)="handleFlightStateChange(flight, 2, $event)"></app-flight>
+    </ng-container>
+    <button (click)="activeQueue = 2">+</button>
+  </section>
 </main>
-
-<!--ul>
-  <li *ngFor="let flight of flights">
-    <article [innerHTML]="flight"></article>
-  </li>
-</ul-->
